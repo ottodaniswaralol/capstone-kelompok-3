@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ngeWARteg | Makan hemat, kurangi food waste</title>
+<style>
+:root{--red:#a61f2d;--red2:#861725;--cream:#fff8ef;--ink:#1f2937;--muted:#6b7280;--green:#15803d;--amber:#b7791f;--line:#e5e7eb;--bg:#f5f7fa;--white:#fff;--shadow:0 8px 24px rgba(15,23,42,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body.big{font-size:17px}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
+.hidden{display:none!important}
+h1,h2,h3{margin:0}
+.muted{color:var(--muted)}
+/* topbar */
+#topbar{position:sticky;top:0;z-index:50}
+.topbar{min-height:68px;background:var(--white);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:14px;padding:8px 28px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:20px;color:var(--red);cursor:pointer;border:0;background:none;padding:0}
+.brand-mark{width:38px;height:38px;border-radius:12px;background:var(--red);color:white;display:grid;place-items:center;font-size:19px}
+.topnav{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.topnav button{border:0;border-radius:10px;padding:9px 13px;font-weight:700;background:transparent;color:var(--ink);position:relative}
+.topnav button:hover{background:#f3f4f6}.topnav button.active{background:var(--red);color:white}
+.top-actions{display:flex;align-items:center;gap:10px}
+.nbadge{display:inline-grid;place-items:center;min-width:18px;height:18px;border-radius:9px;background:#f59e0b;color:#1f2937;font-size:11px;font-weight:800;margin-left:6px;padding:0 5px}
+.rolepill{background:#fce7eb;color:var(--red);border-radius:999px;padding:4px 10px;font-weight:800;font-size:12px}
+.profile-chip{display:flex;align-items:center;gap:8px;font-weight:700}.avatar{width:34px;height:34px;border-radius:50%;background:#e5e7eb;display:grid;place-items:center;font-weight:800}
+.ghost,.primary,.soft,.danger,.okbtn{border:0;border-radius:10px;padding:10px 14px;font-weight:700}
+.ghost{background:transparent;color:var(--ink)}.ghost:hover{background:#f3f4f6}
+.soft{background:#eef1f5;color:var(--ink)}.soft:hover{background:#e3e7ee}
+.primary{background:var(--red);color:white}.primary:hover{background:var(--red2)}.primary:disabled,.soft:disabled{opacity:.5;cursor:not-allowed}
+.danger{background:#fee2e2;color:#991b1b}.okbtn{background:#dcfce7;color:#166534}
+.big-btn{padding:16px 22px;font-size:1.15em;border-radius:14px}
+.linkbtn{border:0;background:none;color:var(--red);font-weight:700;padding:4px 0;text-decoration:underline}
+.link{color:var(--red);font-weight:700;text-decoration:none;cursor:pointer}
+.mini{border:0;background:#eef1f5;border-radius:8px;width:28px;height:28px;font-weight:800}
+/* bell */
+.bellwrap{position:relative}
+.bell{border:0;background:#eef1f5;border-radius:10px;width:40px;height:40px;font-size:18px;position:relative}
+.bell .dot{position:absolute;top:-4px;right:-4px;background:#ef4444;color:white;border-radius:9px;min-width:18px;height:18px;font-size:11px;font-weight:800;display:grid;place-items:center;padding:0 4px}
+.bellpanel{position:absolute;right:0;top:48px;width:340px;max-width:92vw;background:white;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);z-index:70;overflow:hidden}
+.bellpanel header{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line);font-weight:800}
+.nitem{padding:10px 14px;border-bottom:1px solid #f1f2f4;display:grid;grid-template-columns:24px 1fr;gap:8px;font-size:13px}
+.nitem.unread{background:#fff8ef}.nitem small{color:var(--muted);display:block}
+/* layout */
+.wrap{max-width:1280px;margin:0 auto;padding:24px 28px}
+.page-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:20px;flex-wrap:wrap}
+.page-head h1{font-size:28px;margin:0 0 4px}.page-head p{margin:0;color:var(--muted)}
+.page-actions{display:flex;gap:10px;flex-wrap:wrap}
+.grid{display:grid;gap:16px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}.g5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.card{background:white;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 3px 10px rgba(15,23,42,.04)}
+.card h2{font-size:18px;margin-bottom:8px}
+.kpi{font-size:30px;font-weight:800;margin-top:4px}
+.tag{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:999px;font-size:12px;font-weight:800;background:#e8f5ec;color:var(--green)}
+.tag.warn{background:#fff3d8;color:#946200}.tag.gray{background:#eef1f5;color:#4b5563}.tag.red{background:#fee2e2;color:#b91c1c}
+.badges{display:flex;gap:6px;flex-wrap:wrap}
+/* landing */
+.hero{background:linear-gradient(135deg,var(--red),#d86d4b);color:white;border-radius:26px;padding:48px;display:grid;grid-template-columns:1.2fr .8fr;gap:28px;box-shadow:var(--shadow)}
+.hero h1{font-size:46px;line-height:1.05;margin-bottom:14px}.hero p{font-size:16px;color:#fff6f6;max-width:560px}
+.herosearch{display:grid;grid-template-columns:minmax(0,1fr) 130px auto;gap:8px;margin-top:20px;background:white;border-radius:14px;padding:8px}
+.herosearch input,.herosearch select{border:0;padding:12px;border-radius:10px;background:#f6f7f9;color:var(--ink)}
+.herostats{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-content:center}
+.hstat{background:rgba(255,255,255,.14);border-radius:16px;padding:16px}.hstat b{display:block;font-size:30px}.hstat span{font-size:13px;opacity:.9}
+.section{margin-top:44px}.section>h2{font-size:26px;margin-bottom:6px}.section>p{color:var(--muted);margin:0 0 18px}
+.steps4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.stepcard{background:white;border:1px solid var(--line);border-radius:16px;padding:18px}.stepcard .n{width:34px;height:34px;border-radius:50%;background:var(--red);color:white;display:grid;place-items:center;font-weight:800;margin-bottom:10px}
+.cta{background:#131b24;color:white;border-radius:24px;padding:36px;display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center}
+.cta h2{font-size:28px;margin-bottom:8px}.cta ul{margin:10px 0 0;padding-left:18px;color:#cfd8e1}
+.cta .primary{background:#f59e0b;color:#1f2937}
+.sitefoot{margin-top:44px;padding:26px 28px;border-top:1px solid var(--line);color:#7a8794;font-size:13px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+/* food cards */
+.food-card{display:grid;gap:10px;align-content:start}
+.food-thumb{height:120px;border-radius:14px;background:linear-gradient(135deg,#f2d8c4,#f7efe8);display:grid;place-items:center;font-size:46px}
+.price-row{display:flex;justify-content:space-between;align-items:flex-end;gap:8px}
+.price{font-size:24px;font-weight:800;color:var(--red)}.old{text-decoration:line-through;color:var(--muted);font-size:13px}
+.disc{background:var(--red);color:white;border-radius:10px;padding:4px 10px;font-weight:800}
+.hint{font-size:12px;color:#92400e;background:#fff7ed;border-radius:8px;padding:5px 8px}
+.searchbar{display:grid;grid-template-columns:minmax(0,1fr) 190px 150px;gap:10px;margin-bottom:16px}
+.searchbar input,.searchbar select{padding:11px 12px;border:1px solid #cfd4dc;border-radius:10px;background:white}
+.explore-grid{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:18px;align-items:start}
+.mapcard{position:sticky;top:90px}
+.map{width:100%;height:auto;border-radius:12px;display:block}.map .pin{cursor:pointer}.map .pin:hover circle{fill:#861725}
+.empty{border:2px dashed var(--line);border-radius:16px;padding:28px;text-align:center;color:var(--muted);background:white}
+/* forms & tables */
+.field{display:grid;gap:6px;margin:12px 0;align-content:start}.field label{font-weight:700}
+.field input,.field select,.field textarea{width:100%;padding:12px 13px;border:1px solid #cfd4dc;border-radius:10px;background:white}.field input,.field select{height:48px}
+.field .help{font-size:12px;color:var(--muted)}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px;align-items:start}
+.err{background:#fee2e2;color:#991b1b;border-radius:10px;padding:10px 12px;font-weight:700;margin-top:10px}
+.info{background:#eff6ff;color:#1e40af;border-radius:10px;padding:10px 12px;margin:10px 0}
+.warnbox{background:#fff3d8;color:#7a4f00;border-radius:12px;padding:12px 14px;margin-bottom:16px;font-weight:600}
+.rulebox{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:12px;padding:12px 14px;margin:12px 0}.rulebox strong{display:block;margin-bottom:4px}.ack{display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border:1px solid #e5e7eb;border-radius:10px;background:#fff;margin-top:10px}.ack input{margin-top:3px}.auth-register{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}.auth-register p{margin:0 0 10px;color:var(--muted)}.addr-status{display:inline-flex;align-items:center;padding:4px 9px;border-radius:999px;font-size:12px;font-weight:800}.addr-pending{background:#fff3d8;color:#946200}.addr-ok{background:#dcfce7;color:#166534}.addr-bad{background:#fee2e2;color:#991b1b}.map-review{background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px;background:white}
+table{width:100%;border-collapse:collapse;min-width:720px}
+th,td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:#667085;background:#fafbfc}
+.stock{display:inline-flex;align-items:center;gap:6px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;align-items:center}.toolbar select,.toolbar input{padding:10px 12px;border:1px solid #cfd4dc;border-radius:10px;background:white}
+/* auth */
+.auth-shell{min-height:calc(100vh - 100px);display:grid;grid-template-columns:1.1fr .9fr;gap:28px;padding:32px 28px;max-width:1280px;margin:auto}
+.auth-visual{background:linear-gradient(135deg,var(--red),#d86d4b);color:white;border-radius:26px;padding:44px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:var(--shadow)}
+.auth-visual h1{font-size:40px;line-height:1.08;margin-bottom:12px}
+.auth-card{background:white;border:1px solid var(--line);border-radius:22px;padding:30px;box-shadow:var(--shadow);align-self:center}
+.auth-card h2{font-size:26px;margin-bottom:4px}.auth-card>p{color:var(--muted);margin:0 0 14px}
+.form-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px}
+.demo{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}.demo summary{cursor:pointer;font-weight:700;color:var(--muted)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.chip{border:1px solid var(--line);background:#f9fafb;border-radius:999px;padding:6px 12px;font-weight:700}
+/* shell */
+.app-shell{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:calc(100vh - 68px)}
+.sidebar{background:#131b24;color:#dce3ea;padding:22px 14px;position:sticky;top:68px;height:calc(100vh - 68px)}
+.sidebar-title{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:#8fa0af;padding:0 12px 10px}
+.side-nav{display:grid;gap:6px}
+.side-nav button{width:100%;border:0;background:transparent;color:#dce3ea;text-align:left;padding:11px 12px;border-radius:10px;font-weight:700;display:flex;align-items:center;gap:10px}
+.side-nav button.active,.side-nav button:hover{background:#263443;color:white}
+.sidebar-footer{position:absolute;left:14px;right:14px;bottom:18px;border-top:1px solid #2e3b47;padding-top:12px;font-size:12px;color:#9fb0bd}
+.content{padding:26px 28px;min-width:0}.content-inner{max-width:1280px;margin:0 auto}
+/* modal */
+.overlay{position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:90;display:grid;place-items:center;padding:16px;overflow:auto}
+.modal{background:white;border-radius:22px;max-width:760px;width:100%;padding:24px;box-shadow:0 24px 60px rgba(0,0,0,.3);position:relative;max-height:94vh;overflow:auto}
+.modal .x{position:absolute;right:14px;top:12px;border:0;background:#eef1f5;border-radius:50%;width:34px;height:34px;font-size:18px}
+.stepper{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.step{padding:6px 10px;border-radius:999px;background:#eef1f5;color:#6b7280;font-size:12px;font-weight:700}.step.on{background:#fce7eb;color:var(--red)}
+.qtyrow{display:flex;align-items:center;gap:12px;margin:12px 0}.qtyrow .mini{width:38px;height:38px;font-size:20px}
+.sumrow{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)}.sumrow.total{font-weight:800;font-size:1.1em;border-bottom:0}
+.qrbox{text-align:center;padding:10px}.qrbox svg{border:1px solid var(--line);border-radius:12px}
+.code{font-size:26px;font-weight:800;letter-spacing:.06em}
+.stars{display:flex;gap:4px;font-size:30px}.stars button{border:0;background:none;color:#d1d5db;padding:0}.stars button.on{color:#f59e0b}
+.star-static{color:#f59e0b;letter-spacing:2px}
+.voucher-card{display:grid;grid-template-columns:200px 1fr;gap:18px;align-items:center}
+.impact{background:linear-gradient(135deg,#ecfdf3,#fff);border:1px solid #bbf7d0}
+.impact b{font-size:28px;color:#166534}
+.badge-ach{display:inline-flex;gap:6px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-weight:700;margin:4px 6px 0 0}
+.badge-ach.off{opacity:.45}
+.timeline{margin:6px 0 0;padding-left:18px;font-size:13px;color:#374151}
+.vres{margin-top:16px}.vbig{display:grid;grid-template-columns:1fr auto;gap:10px}.vbig input{padding:18px;font-size:1.4em;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border:2px solid #cfd4dc;border-radius:14px}
+.guide{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.guide div{background:#fff8ef;border-radius:12px;padding:12px;font-weight:600}
+/* clock */
+.clock{position:fixed;left:16px;bottom:16px;z-index:60;background:#111827;color:white;border-radius:16px;padding:12px 14px;width:236px;box-shadow:var(--shadow)}
+.clock-h{display:flex;justify-content:space-between;align-items:center}.clock-t{font-size:30px;font-weight:800;margin:2px 0}.clock-sub{font-size:11px;color:#9ca3af;margin-bottom:8px}
+.clock-b{display:flex;gap:6px;flex-wrap:wrap}.clock-b .soft{padding:6px 10px;font-size:12px}.clock-set{display:grid;grid-template-columns:1fr auto;gap:6px;margin-top:8px}.clock-set input{min-width:0;border:1px solid #374151;background:#1f2937;color:white;border-radius:8px;padding:7px 8px}.clock-presets{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}.clock-presets button{border:1px solid #374151;background:#1f2937;color:#e5e7eb;border-radius:8px;padding:5px 7px;font-size:11px;cursor:pointer}
+.clock .linkbtn{color:#fca5a5;font-size:12px;margin-top:6px}
+.clock-mini{position:fixed;left:16px;bottom:16px;z-index:60;border:0;background:#111827;color:white;border-radius:999px;padding:10px 14px;font-weight:800;box-shadow:var(--shadow)}
+.toast{position:fixed;right:20px;top:84px;background:#111827;color:white;padding:12px 16px;border-radius:12px;box-shadow:var(--shadow);z-index:120;max-width:360px}
+@media(max-width:1000px){.hero,.cta,.auth-shell,.explore-grid{grid-template-columns:1fr}.mapcard{position:static}.steps4,.g4,.g5{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(2,minmax(0,1fr))}.app-shell{grid-template-columns:78px minmax(0,1fr)}.sidebar-title,.sidebar .label,.sidebar-footer{display:none}.side-nav button{justify-content:center}.searchbar{grid-template-columns:1fr}.hero{padding:30px}.hero h1{font-size:36px}}
+@media(max-width:700px){.topbar,.wrap,.content{padding-left:16px;padding-right:16px}.g2,.g3,.g4,.g5,.steps4,.formgrid,.guide{grid-template-columns:1fr}.app-shell{display:block}.sidebar{position:static;height:auto;padding:8px 12px;overflow:auto}.side-nav{display:flex}.side-nav button{width:auto;white-space:nowrap}.voucher-card{grid-template-columns:1fr}.herosearch{grid-template-columns:1fr}.vbig{grid-template-columns:1fr}.clock{width:200px}}
+</style>
+</head>
+<body>
+<div id="topbar"></div>
+<main id="app"></main>
+<div id="modal"></div>
+<div id="clock"></div>
+<div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+<script>
+'use strict';
+/* ===== ngeWARteg prototype M5 (v4): login terpadu, rules booking fee, jam listing, validasi alamat ===== */
+const KEY='ngewarteg_demo_v4', BOOKING_FEE=2000;
+const AREAS=['Jakarta Selatan','Jakarta Pusat','Jakarta Barat','Jakarta Timur','Jakarta Utara','Depok','Tangerang Selatan','Bekasi'];
+const EMOJIS=['🍛','🍗','🍳','🥬','🍲','🥗','🍱','🍜'];
+let S=null, route='landing', M=null, E={q:'',sort:'near',radius:5}, AF={status:'all'}, MF={status:'all'}, VAL=null, bellOpen=false, clockOpen=true, pendingDetail=null, timer=null;
+
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s);
+const val=id=>{const e=document.getElementById(id);return e?e.value:''};
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const rp=n=>'Rp'+Math.round(n).toLocaleString('id-ID');
+const T=m=>{m=Math.max(0,Math.round(m));return String(Math.floor(m/60)%24).padStart(2,'0')+'.'+String(m%60).padStart(2,'0')};
+const T24=m=>T(m).replace('.',':');
+const P=s=>{const a=String(s||'').split(/[:.]/).map(Number);return (a[0]||0)*60+(a[1]||0)};
+const dur=m=>{m=Math.max(0,Math.round(m));if(m<60)return m+' mnt';const h=Math.floor(m/60),r=m%60;return r?h+' j '+r+' mnt':h+' j'};
+const km=d=>d.toFixed(1).replace('.',',')+' km';
+const stars=n=>'★'.repeat(n)+'☆'.repeat(5-n);
+
+/* ---------- data awal ---------- */
+function seed(){
+  const pw='12345678';
+  const U=(id,name,email,role,area)=>({id,name,email,pass:pw,role,area:area||'',active:true});
+  const users=[U('u1','Ghefari Marva','ghefa@gmail.com','consumer','Jakarta Selatan'),U('u2','Rafli Pradana','rafli@gmail.com','consumer','Jakarta Selatan'),
+    U('u3','Bu Lastri','bahari@merchant.com','merchant'),U('u4','Bu Sari','sari@merchant.com','merchant'),U('u5','Pak Wahyu','melati@merchant.com','merchant'),
+    U('u6','Pak Anto','nusantara@merchant.com','merchant'),U('u7','Bu Rina','rina@merchant.com','merchant'),U('u8','Pak Slamet','sederhana@merchant.com','merchant'),
+    U('u9','Administrator','ghefa@admin.com','admin'),U('u10','Bu Maya','maya@merchant.com','merchant')];
+  const Mr=(id,userId,name,address,open,close,x,y)=>({id,userId,name,address,submittedAddress:address,verifiedAddress:address,addressStatus:'verified',mapChecked:true,open:open*60,close,status:'active',x,y});
+  const merchants=[Mr('m1','u3','Warteg Bahari','Jl. Bahari No. 12, Jakarta Selatan',7,21*60,.9,-.8),Mr('m2','u4','Dapur Bu Sari','Jl. Kemang Raya No. 5, Jakarta Selatan',8,20*60+30,-1.6,1.2),
+    Mr('m3','u5','Warteg Melati','Jl. Melati No. 3, Jakarta Selatan',7,21*60+30,2.2,1.8),Mr('m4','u6','Warung Nusantara','Jl. Nusantara No. 21, Jakarta Selatan',8,21*60+15,-3.1,-2.4),
+    Mr('m5','u7','Katering Ibu Rina','Jl. Cempaka No. 8, Jakarta Selatan',9,22*60,4,3),Mr('m6','u8','Warteg Sederhana','Jl. Sederhana No. 2, Jakarta Selatan',7,20*60+45,-5.5,4.5)];
+  merchants.push({id:'m7',userId:'u10',name:'Dapur Bu Maya',address:'Jl. Tebet Raya No. 18, Jakarta Selatan',submittedAddress:'Jl. Tebet Raya No. 18, Jakarta Selatan',verifiedAddress:'',addressStatus:'pending',mapChecked:false,open:8*60,close:21*60,status:'review',x:1.2,y:2.1});
+  const L=(id,merchantId,name,emoji,normal,stock,close,note)=>({id,merchantId,name,emoji,normal,stock,initial:stock,close,note,active:true});
+  const listings=[L('l1','m1','Paket Nasi Ayam','🍗',25000,5,21*60,'Nasi, ayam goreng, sambal, lalapan'),L('l2','m2','Nasi Telur Balado','🍳',20000,3,20*60+30,'Telur balado, sayur, sambal'),
+    L('l3','m3','Paket Sayur & Tempe','🥬',18000,4,21*60+30,'Sayur asem, tempe orek, nasi'),L('l4','m4','Nasi Rames Komplit','🍛',22000,6,21*60+15,'Nasi rames dengan 3 lauk'),
+    L('l5','m5','Soto Ayam + Nasi','🍲',24000,4,22*60,'Soto ayam kuah bening'),L('l6','m6','Gado-gado Porsi Besar','🥗',17000,2,20*60+45,'Gado-gado, lontong, kerupuk'),
+    L('l7','m1','Tempe Orek + Nasi','🍱',15000,4,21*60+30,'Tempe orek, sayur, nasi')];
+  const R=(id,userId,listingId,merchantId,name,emoji,qty,unit,normal,createdAt,expiresAt,status,extra)=>Object.assign({id,userId,listingId,merchantId,name,emoji,qty,unit,normal,fee:BOOKING_FEE,createdAt,expiresAt,status,warned:false,rating:null,completedAt:null},extra||{});
+  const res=[R('NW-1042','u1','l1','m1','Paket Nasi Ayam','🍗',1,18000,25000,19*60+30,20*60+30,'active'),
+    R('NW-1041','u2','l2','m2','Nasi Telur Balado','🍳',2,14000,20000,18*60+10,18*60+40,'completed',{completedAt:18*60+25}),
+    R('NW-1038','u1','l2','m2','Nasi Telur Balado','🍳',1,14000,20000,17*60+5,17*60+35,'completed',{completedAt:17*60+20}),
+    R('NW-1035','u1','l1','m1','Paket Nasi Ayam','🍗',2,18000,25000,12*60+10,12*60+40,'completed',{completedAt:12*60+25,rating:{score:5,text:'Porsi banyak, rasanya enak!'}}),
+    R('NW-1029','u1','l3','m3','Paket Sayur & Tempe','🥬',1,12000,18000,10*60,10*60+30,'expired')];
+  const now=19*60+45;
+  return {v:4,now,session:null,big:false,seq:{tr:1043,n:100,u:11,m:8,l:8},users,merchants,listings,res,
+    notifs:[{id:1,userId:'u1',text:'Voucher NW-1042 aktif sampai 20.30',time:19*60+30,read:false,type:'voucher'},{id:2,userId:'u3',text:'Pesanan baru NW-1042: Paket Nasi Ayam x1',time:19*60+30,read:false,type:'voucher'}],
+    log:[{t:19*60+30,text:'Reservasi NW-1042 dibuat oleh Ghefari Marva'},{t:19*60+15,text:'Listing Paket Nasi Ayam diperbarui oleh Warteg Bahari'}]};
+}
+function load(){try{const j=JSON.parse(localStorage.getItem(KEY));if(j&&j.v===4)return j}catch(e){}return null}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+
+/* ---------- akses data ---------- */
+const user=id=>S.users.find(u=>u.id===id);
+const merch=id=>S.merchants.find(m=>m.id===id);
+const listing=id=>S.listings.find(l=>l.id===id);
+const cur=()=>S.session?user(S.session):null;
+const myMerchant=()=>S.merchants.find(m=>m.userId===S.session);
+const dist=m=>Math.hypot(m.x,m.y);
+const homeOf=r=>r==='merchant'?'m:dashboard':r==='admin'?'a:dashboard':'c:home';
+const dayMinute=()=>((S.now%1440)+1440)%1440;
+const canCreateListing=()=>{const t=dayMinute();return t<60||t>=19*60};
+const addrStatusLabel=m=>m.addressStatus==='verified'?'<span class="addr-status addr-ok">✓ Alamat terverifikasi</span>':m.addressStatus==='needs_revision'?'<span class="addr-status addr-bad">Perlu perbaikan</span>':'<span class="addr-status addr-pending">Menunggu validasi alamat</span>';
+
+/* tingkat diskon sesuai Tabel 1.6 laporan Minggu 1-4 */
+function info(l){
+  const rem=l.close-S.now;let state,pct=null;
+  if(!l.active)state='paused';else if(rem<=0)state='closed';else if(l.stock<=0)state='soldout';else if(rem>120)state='upcoming';else state='live';
+  if(rem>0&&rem<=120)pct=rem>90?20:rem>60?30:rem>30?40:50;
+  const price=pct?Math.round(l.normal*(1-pct/100)):l.normal;
+  let next=null;if(pct&&pct<50){const th=pct===20?90:pct===30?60:30;next={pct:pct+10,inMin:rem-th}}
+  return {rem,pct,price,state,next};
+}
+function liveList(){
+  return S.listings.filter(l=>{const m=merch(l.merchantId);return m&&m.status==='active'&&info(l).state==='live'}).sort((a,b)=>dist(merch(a.merchantId))-dist(merch(b.merchantId)));
+}
+const resOf=uid=>S.res.filter(r=>r.userId===uid);
+function impact(uid){
+  const d=resOf(uid).filter(r=>r.status==='completed');
+  return {porsi:d.reduce((a,r)=>a+r.qty,0),hemat:d.reduce((a,r)=>a+(r.normal-r.unit)*r.qty,0),merchants:new Set(d.map(r=>r.merchantId)).size};
+}
+
+/* ---------- notifikasi, log, toast ---------- */
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(window.__t);window.__t=setTimeout(()=>t.classList.add('hidden'),3200)}
+function notify(uid,text,type){if(!uid)return;S.notifs.unshift({id:S.seq.n++,userId:uid,text,time:S.now,read:false,type:type||'info'});S.notifs=S.notifs.slice(0,200);if(uid===S.session)toast(text)}
+function logEv(text){S.log.unshift({t:S.now,text});S.log=S.log.slice(0,60)}
+const myNotifs=()=>S.notifs.filter(n=>n.userId===S.session);
+function markRead(){S.notifs.forEach(n=>{if(n.userId===S.session)n.read=true});save();render()}
+
+/* ---------- scheduler simulasi (FR-06 dan FR-10) ---------- */
+function midnightReset(){
+  let expired=0;
+  S.res.filter(r=>r.status==='active').forEach(r=>{
+    r.status='expired';expired++;
+    notify(r.userId,'Voucher '+r.id+' berakhir pada pergantian hari. Booking fee/DP hangus.','voucher');
+    const m=merch(r.merchantId);if(m)notify(m.userId,'Voucher '+r.id+' berakhir pukul 00.00. Stok harian dikembalikan ke kondisi awal.','voucher');
+  });
+  S.listings.forEach(l=>{l.stock=l.initial});
+  if(expired)logEv('Reset 00.00: '+expired+' voucher aktif diakhiri dan DP hangus');
+  else logEv('Reset 00.00: stok listing dikembalikan ke kondisi awal');
+}
+function advance(mins){
+  const before={};S.listings.forEach(l=>before[l.id]=info(l));
+  let target=S.now+mins, crossedMidnight=false;
+  while(target>=1440){target-=1440;crossedMidnight=true;midnightReset()}
+  S.now=target;let changed=0;
+  if(crossedMidnight)changed++;
+  S.listings.forEach(l=>{
+    const a=before[l.id],b=info(l),m=merch(l.merchantId);if(!m||m.status!=='active')return;
+    if(a.state==='upcoming'&&b.state==='live'){changed++;S.users.filter(u=>u.role==='consumer'&&u.active).forEach(u=>notify(u.id,'Listing baru: '+l.name+' di '+m.name+', diskon '+b.pct+'%','diskon'));notify(m.userId,'Listing "'+l.name+'" mulai tayang dengan diskon '+b.pct+'%','diskon')}
+    else if(a.state==='live'&&b.state==='live'&&b.pct>a.pct){changed++;S.users.filter(u=>u.role==='consumer'&&u.active).forEach(u=>notify(u.id,'Diskon '+l.name+' ('+m.name+') naik jadi '+b.pct+'%','diskon'));notify(m.userId,'Diskon "'+l.name+'" naik jadi '+b.pct+'%','diskon')}
+    else if(a.state==='live'&&b.state==='closed'){changed++;notify(m.userId,'Listing "'+l.name+'" ditutup otomatis (lewat jam tutup)','info')}
+  });
+  S.res.filter(r=>r.status==='active').forEach(r=>{
+    if(r.expiresAt<=S.now){
+      r.status='expired';const l=listing(r.listingId);if(l)l.stock+=r.qty;changed++;
+      notify(r.userId,'Voucher '+r.id+' kedaluwarsa. Booking fee tidak dikembalikan.','voucher');
+      const m=merch(r.merchantId);if(m)notify(m.userId,'Voucher '+r.id+' kedaluwarsa, '+r.qty+' porsi kembali ke stok','voucher');
+      logEv('Scheduler: voucher '+r.id+' kedaluwarsa');
+    }else if(r.expiresAt-S.now<=10&&!r.warned){r.warned=true;notify(r.userId,'Voucher '+r.id+' kedaluwarsa dalam '+(r.expiresAt-S.now)+' menit','voucher')}
+  });
+  if(changed)logEv('Scheduler '+T(S.now)+': '+changed+' perubahan harga atau status');
+  save();refresh();
+}
+function toggleRun(){S.running=!S.running;if(S.running){timer=setInterval(()=>advance(1),2000)}else{clearInterval(timer);timer=null}renderClock()}
+function setClockTime(v){if(!v)return;const target=P(v),base=Math.floor(S.now/1440)*1440;S.now=base+target;save();refresh();toast('Waktu diatur ke '+T(S.now));}
+function setClockPreset(v){setClockTime(v)}
+function resetDemo(){if(confirm('Kembalikan semua data demo ke kondisi awal?')){clearInterval(timer);timer=null;const big=S.big;S=seed();S.big=big;S.running=false;route='landing';M=null;VAL=null;document.body.classList.toggle('big',!!big);save();render();toast('Data demo direset ke 19.45')}}
+
+/* ---------- navigasi ---------- */
+function go(r){route=r;bellOpen=false;M=null;VAL=null;window.scrollTo(0,0);render()}
+function logout(){S.session=null;route='landing';bellOpen=false;M=null;save();render();toast('Anda telah keluar.')}
+function toggleBig(){S.big=!S.big;document.body.classList.toggle('big',S.big);save();render()}
+function scrollToId(id){setTimeout(()=>{const e=document.getElementById(id);if(e)e.scrollIntoView({behavior:'smooth'})},60)}
+function goSection(id){if(route!=='landing'){route='landing';render()}scrollToId(id)}
+
+/* ---------- akun: login dan registrasi (FR-01 sampai FR-04) ---------- */
+const emailOk=e=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+function showErr(msg){const e=$('#authErr');if(e){e.textContent=msg;e.classList.remove('hidden')}}
+function login(){
+  const email=val('le').trim().toLowerCase(),pass=val('lp');
+  if(!emailOk(email))return showErr('Format email belum benar.');
+  const u=S.users.find(x=>x.email===email&&x.pass===pass);
+  if(!u)return showErr('Email atau kata sandi salah.');
+  if(!u.active)return showErr('Akun ini dinonaktifkan. Hubungi administrator.');
+  if(u.role==='merchant'){const m=S.merchants.find(x=>x.userId===u.id);if(m&&m.status==='rejected')return showErr('Pendaftaran merchant Anda ditolak. Hubungi administrator.')}
+  S.session=u.id;save();
+  route=homeOf(u.role);
+  if(pendingDetail&&u.role==='consumer'){const id=pendingDetail;pendingDetail=null;route='explore';render();toast('Selamat datang, '+u.name);openDetail(id);return}
+  render();toast('Selamat datang, '+u.name+'. Anda masuk sebagai '+({consumer:'pembeli',merchant:'merchant',admin:'admin'}[u.role]));
+}
+function checkAcc(name,email,p,p2){
+  if(!name.trim())return 'Nama wajib diisi.';
+  if(!emailOk(email))return 'Format email belum benar.';
+  if(S.users.some(u=>u.email===email))return 'Email sudah terdaftar.';
+  if(p.length<8)return 'Kata sandi minimal 8 karakter.';
+  if(p!==p2)return 'Konfirmasi kata sandi tidak sama.';
+  return '';
+}
+function regConsumer(){
+  const name=val('rn').trim(),email=val('re').trim().toLowerCase(),p=val('rp'),p2=val('rp2'),area=val('ra');
+  const err=checkAcc(name,email,p,p2);if(err)return showErr(err);
+  const u={id:'u'+(S.seq.u++),name,email,pass:p,role:'consumer',area,active:true};
+  S.users.push(u);S.session=u.id;logEv('Pembeli baru mendaftar: '+name);save();route='c:home';render();toast('Akun dibuat. Selamat datang, '+name);
+}
+function regMerchant(){
+  const owner=val('rn').trim(),email=val('re').trim().toLowerCase(),p=val('rp'),p2=val('rp2');
+  const biz=val('rb').trim(),addr=val('rad').trim(),open=P(val('ro')||'07:00'),close=P(val('rc')||'21:00');
+  const err=checkAcc(owner,email,p,p2)||(!biz?'Nama usaha wajib diisi.':!addr?'Alamat usaha wajib diisi.':close<=open?'Jam tutup harus setelah jam buka.':'');
+  if(err)return showErr(err);
+  const u={id:'u'+(S.seq.u++),name:owner,email,pass:p,role:'merchant',area:'',active:true};S.users.push(u);
+  const pos=[[1.5,1.0],[-2.0,-1.5],[3.0,-2.0],[-1.0,3.5],[.5,-3.0],[2.5,2.5]][S.merchants.length%6];
+  S.merchants.push({id:'m'+(S.seq.m++),userId:u.id,name:biz,address:addr,submittedAddress:addr,verifiedAddress:'',addressStatus:'pending',mapChecked:false,open,close,status:'review',x:pos[0],y:pos[1]});
+  S.users.filter(x=>x.role==='admin').forEach(a=>notify(a.id,'Merchant baru mendaftar: '+biz+'. Cek alamat di Google Maps sebelum menyetujui akun.','admin'));
+  logEv('Merchant baru mendaftar: '+biz+' (Review alamat & akun)');S.session=u.id;save();route='m:dashboard';render();toast('Pendaftaran terkirim. Alamat akan dicek admin melalui Google Maps sebelum akun disetujui.');
+}
+function saveProfileC(){
+  const u=cur(),name=val('pn').trim();if(!name)return toast('Nama tidak boleh kosong');
+  u.name=name;u.area=val('pa');save();render();toast('Profil disimpan');
+}
+function changePass(){
+  const u=cur(),o=val('po'),n=val('pnew');
+  if(o!==u.pass)return toast('Kata sandi lama salah');if(n.length<8)return toast('Kata sandi baru minimal 8 karakter');
+  u.pass=n;save();render();toast('Kata sandi diubah');
+}
+function saveProfileM(){
+  const m=myMerchant(),name=val('mn').trim(),addr=val('mad').trim(),open=P(val('mo')),close=P(val('mc'));
+  if(!name||!addr)return toast('Nama usaha dan alamat wajib diisi');if(close<=open)return toast('Jam tutup harus setelah jam buka');
+  m.name=name;
+  if(m.address!==addr){m.address=addr;m.submittedAddress=addr;if(m.status==='review'){m.addressStatus='pending';m.mapChecked=false;m.verifiedAddress=''}}
+  m.open=open;m.close=close;save();render();toast(m.status==='review'?'Profil disimpan. Perubahan alamat akan divalidasi admin.':'Profil usaha disimpan');
+}
+
+/* ---------- pembeli: reservasi, voucher, rating (FR-07 sampai FR-13) ---------- */
+function openDetail(id){M={type:'detail',id,step:'detail',qty:1};renderModal()}
+function closeModal(){M=null;renderModal()}
+function setQty(d){const l=listing(M.id);const max=Math.max(1,Math.min(3,l.stock));M.qty=Math.min(max,Math.max(1,M.qty+d));renderModal()}
+function toFee(){
+  const u=cur();
+  if(!u){pendingDetail=M.id;M=null;route='login';render();toast('Masuk dulu untuk melanjutkan reservasi');return}
+  if(u.role!=='consumer')return toast('Reservasi hanya untuk akun pembeli');
+  M.step='fee';renderModal();
+}
+function pay(){
+  const l=listing(M.id),i=info(l),u=cur();
+  if(!l||i.state!=='live'||l.stock<M.qty){toast('Maaf, stok atau waktu penawaran sudah berubah');M.step='detail';renderModal();render();return}
+  const id='NW-'+(S.seq.tr++),m=merch(l.merchantId);
+  S.res.push({id,userId:u.id,listingId:l.id,merchantId:m.id,name:l.name,emoji:l.emoji,qty:M.qty,unit:i.price,normal:l.normal,fee:BOOKING_FEE,createdAt:S.now,expiresAt:Math.min(S.now+30,l.close),status:'active',warned:false,rating:null,completedAt:null});
+  l.stock-=M.qty;
+  notify(m.userId,'Pesanan baru '+id+': '+l.name+' x'+M.qty+' oleh '+u.name,'voucher');
+  S.notifs.unshift({id:S.seq.n++,userId:u.id,text:'Reservasi '+id+' berhasil. Voucher berlaku sampai '+T(Math.min(S.now+30,l.close)),time:S.now,read:false,type:'voucher'});
+  logEv('Reservasi '+id+' dibuat oleh '+u.name);
+  M.step='voucher';M.resId=id;save();render();
+}
+function openRate(id){M={type:'rate',resId:id,score:0};renderModal()}
+function setStar(n){M.score=n;renderModal()}
+function submitRating(){
+  if(!M.score)return toast('Pilih jumlah bintang dulu');
+  const r=S.res.find(x=>x.id===M.resId);r.rating={score:M.score,text:val('rt').trim()};
+  const m=merch(r.merchantId);notify(m.userId,'Rating baru '+r.rating.score+' bintang untuk '+r.name,'rating');
+  logEv('Rating '+r.rating.score+' bintang untuk '+m.name);M=null;save();render();toast('Terima kasih atas ratingnya');
+}
+
+/* ---------- merchant: listing dan validasi voucher (FR-05, FR-11, FR-12) ---------- */
+function adjStock(id,d){const l=listing(id);l.stock=Math.max(0,l.stock+d);save();render()}
+function toggleActive(id){const l=listing(id);l.active=!l.active;save();render();toast(l.active?'Listing diaktifkan':'Listing dijeda')}
+function soldOut(id){const l=listing(id);l.stock=0;save();render();toast('Listing ditandai habis')}
+function previewSched(){
+  const el=$('#sched');if(!el)return;const c=P(val('lc')||'21:00'),p=+val('lp')||0;
+  el.innerHTML=[[c-120,20],[c-90,30],[c-60,40],[c-30,50]].map(r=>'<li>mulai '+T(r[0])+': diskon '+r[1]+'%'+(p?' ('+rp(Math.round(p*(1-r[1]/100)))+')':'')+'</li>').join('');
+}
+function addListing(){
+  const m=myMerchant();if(m.status!=='active')return toast('Akun belum diverifikasi admin');
+  if(!canCreateListing())return toast('Listing baru hanya dapat dibuat pukul 19.00–00.59. Pukul 01.00–18.59 listing dikunci.');
+  const name=val('ln').trim(),stock=+val('lq'),close=P(val('lc')||'21:00'),normal=+val('lp'),note=val('lnote').trim(),emoji=val('lemoji')||'🍱';
+  if(!name||!(stock>0)||!(normal>0))return toast('Lengkapi nama makanan, jumlah porsi, dan harga normal');
+  if(close<=S.now)return toast('Jam tutup harus setelah waktu saat ini ('+T(S.now)+')');
+  const l={id:'l'+(S.seq.l++),merchantId:m.id,name,emoji,normal,stock,initial:stock,close,note,active:true};
+  S.listings.push(l);logEv('Listing '+name+' ditambahkan oleh '+m.name);save();
+  const i=info(l);route='m:listing';render();
+  toast(i.state==='live'?'Listing tayang sekarang dengan diskon '+i.pct+'%':'Listing disimpan, tayang otomatis pukul '+T(close-120));
+}
+function validateCode(code){
+  const mm=myMerchant();code=(code||val('vcode')).trim().toUpperCase();
+  if(!code){VAL={ok:false,msg:'Masukkan kode voucher dulu'}}
+  else{
+    const r=S.res.find(x=>x.id===code);
+    if(!r)VAL={ok:false,msg:'Kode tidak ditemukan'};
+    else if(r.merchantId!==mm.id)VAL={ok:false,msg:'Voucher ini milik merchant lain'};
+    else if(r.status==='completed')VAL={ok:false,msg:'Voucher sudah dipakai'};
+    else if(r.status==='expired')VAL={ok:false,msg:'Voucher sudah kedaluwarsa'};
+    else VAL={ok:true,id:r.id};
+  }
+  VAL.code=code;renderVal();
+}
+function scanSim(){
+  const mm=myMerchant(),r=S.res.find(x=>x.merchantId===mm.id&&x.status==='active');
+  if(!r)return toast('Belum ada voucher menunggu pickup');
+  const e=document.getElementById('vcode');if(e)e.value=r.id;validateCode(r.id);
+}
+function confirmPickup(id){
+  const r=S.res.find(x=>x.id===id);if(!r||r.status!=='active')return;
+  r.status='completed';r.completedAt=S.now;const m=merch(r.merchantId);
+  notify(r.userId,'Pickup '+r.id+' selesai di '+m.name+'. Beri rating pengalamanmu!','voucher');
+  logEv('Transaksi '+r.id+' selesai di '+m.name);VAL=null;save();render();toast('Transaksi '+r.id+' selesai');
+}
+
+/* ---------- admin (FR-14) ---------- */
+function openAddressReview(id){M={type:'address',merchantId:id};renderModal()}
+function openMapsForMerchant(id){const m=merch(id);window.open('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(m.submittedAddress||m.address),'_blank','noopener,noreferrer')}
+function verifyMerchantAddress(id,ok){
+  const m=merch(id);if(!m)return;
+  if(ok){const corrected=(val('verifiedAddr')||m.submittedAddress||m.address).trim();m.verifiedAddress=corrected;m.address=corrected;m.addressStatus='verified';m.mapChecked=true;notify(m.userId,'Alamat usaha telah dikonfirmasi admin. Pendaftaran dapat dilanjutkan ke persetujuan akun.','admin');logEv('Admin memvalidasi alamat '+m.name);toast('Alamat '+m.name+' terverifikasi')}
+  else{m.addressStatus='needs_revision';m.mapChecked=true;notify(m.userId,'Alamat usaha belum dapat diverifikasi. Silakan perbaiki alamat pada Profil Usaha.','admin');logEv('Admin meminta perbaikan alamat '+m.name);toast('Alamat ditandai perlu perbaikan')}
+  M=null;save();render();
+}
+function approveMerchant(id){const m=merch(id);if(m.addressStatus!=='verified')return toast('Validasi alamat merchant melalui Google Maps terlebih dahulu.');m.status='active';notify(m.userId,'Akun merchant disetujui. Anda sudah dapat membuat listing pada jam yang diizinkan.','admin');logEv('Admin menyetujui merchant '+m.name);save();render();toast(m.name+' disetujui')}
+function rejectMerchant(id){const m=merch(id);m.status='rejected';notify(m.userId,'Pendaftaran merchant ditolak.','admin');logEv('Admin menolak merchant '+m.name);save();render();toast(m.name+' ditolak')}
+function reactivateMerchant(id){const m=merch(id);m.status='active';logEv('Admin mengaktifkan kembali '+m.name);save();render()}
+function toggleUser(id){const u=user(id);u.active=!u.active;logEv('Admin '+(u.active?'mengaktifkan':'menonaktifkan')+' akun '+u.name);save();render()}
+
+/* ---------- komponen tampilan ---------- */
+function qrSvg(code,size){
+  const n=21;let h=2166136261;for(const ch of code)h=Math.imul(h^ch.charCodeAt(0),16777619)>>>0;
+  const rnd=()=>{h^=h<<13;h>>>=0;h^=h>>>17;h^=h<<5;h>>>=0;return h/4294967296};
+  const inF=(x,y)=>(x<8&&y<8)||(x>=n-8&&y<8)||(x<8&&y>=n-8);let cells='';
+  for(let y=0;y<n;y++)for(let x=0;x<n;x++){if(inF(x,y))continue;if(rnd()>.5)cells+='<rect x="'+x+'" y="'+y+'" width="1" height="1"/>'}
+  const f=(x,y)=>'<g transform="translate('+x+','+y+')"><rect width="7" height="7"/><rect x="1" y="1" width="5" height="5" fill="#fff"/><rect x="2" y="2" width="3" height="3"/></g>';
+  return '<svg viewBox="-1 -1 '+(n+2)+' '+(n+2)+'" width="'+size+'" height="'+size+'" fill="#111" role="img" aria-label="QR voucher '+code+' (simulasi)"><rect x="-1" y="-1" width="'+(n+2)+'" height="'+(n+2)+'" fill="#fff"/>'+cells+f(0,0)+f(n-7,0)+f(0,n-7)+'</svg>';
+}
+function foodCard(l){
+  const m=merch(l.merchantId),i=info(l);
+  const urg=i.rem<=30?'<span class="tag red">⏰ Tutup '+dur(i.rem)+' lagi</span>':'<span class="tag gray">Tutup '+T(l.close)+' · '+dur(i.rem)+' lagi</span>';
+  const stk=l.stock<=2?'<span class="tag red">Tinggal '+l.stock+' porsi!</span>':'<span class="tag">Sisa '+l.stock+' porsi</span>';
+  const nx=i.next?'<div class="hint">📈 Diskon naik jadi '+i.next.pct+'% dalam '+dur(i.next.inMin)+'</div>':'<div class="hint">🔥 Diskon sudah maksimal</div>';
+  return '<div class="card food-card"><div class="food-thumb" aria-hidden="true">'+l.emoji+'</div><div class="badges">'+urg+stk+'</div><div><strong>'+esc(l.name)+'</strong><div class="muted">'+esc(m.name)+' • '+km(dist(m))+'</div></div><div class="price-row"><div><span class="old">'+rp(l.normal)+'</span><div class="price">'+rp(i.price)+'</div></div><span class="disc">-'+i.pct+'%</span></div>'+nx+'<button class="primary" onclick="openDetail(\''+l.id+'\')">Detail dan reservasi</button></div>';
+}
+function mapSvg(list){
+  const c=170,R=E.radius,sc=140/R;let pins='';const seen={};
+  const ring=r=>'<circle cx="'+c+'" cy="'+c+'" r="'+(r*sc)+'" fill="none" stroke="#9ca3af" stroke-dasharray="4 4"/>';
+  list.forEach(l=>{if(seen[l.merchantId])return;seen[l.merchantId]=1;const m=merch(l.merchantId),px=c+m.x*sc,py=c+m.y*sc;
+    pins+='<g class="pin" onclick="openDetail(\''+l.id+'\')"><title>'+esc(m.name)+' ('+km(dist(m))+')</title><circle cx="'+px+'" cy="'+py+'" r="14" fill="#a61f2d"/><text x="'+px+'" y="'+(py+5)+'" text-anchor="middle" font-size="14">'+l.emoji+'</text><text x="'+px+'" y="'+(py+28)+'" text-anchor="middle" font-size="10" fill="#374151">'+esc(m.name)+'</text></g>'});
+  return '<svg viewBox="0 0 340 340" class="map" role="img" aria-label="Peta penawaran di sekitar Anda"><rect width="340" height="340" fill="#eef6ee"/>'+ring(R)+ring(R/2)+'<text x="'+c+'" y="'+(c-R*sc-4)+'" text-anchor="middle" font-size="10" fill="#6b7280">'+R+' km</text><text x="'+c+'" y="'+(c-R*sc/2-4)+'" text-anchor="middle" font-size="10" fill="#6b7280">'+(R/2)+' km</text><circle cx="'+c+'" cy="'+c+'" r="7" fill="#2563eb" stroke="#fff" stroke-width="3"/><text x="'+c+'" y="'+(c+22)+'" text-anchor="middle" font-size="11" font-weight="700" fill="#1d4ed8">Anda</text>'+pins+'</svg><div class="muted" style="margin-top:8px">Radius '+R+' km · klik pin untuk melihat detail</div>';
+}
+function impactCard(uid){
+  const im=impact(uid),ach=[['🌱 Penyelamat Pemula',1],['🌿 Pahlawan Sisa',10],['🌳 Jagoan Anti-Waste',25]];
+  return '<div class="card impact"><h2>Dampakmu 🌍</h2><div class="grid g3"><div><b>'+im.porsi+'</b><div class="muted">porsi diselamatkan</div></div><div><b>'+rp(im.hemat)+'</b><div class="muted">total hemat</div></div><div><b>'+im.merchants+'</b><div class="muted">merchant terbantu</div></div></div><div style="margin-top:10px">'+ach.map(a=>'<span class="badge-ach '+(im.porsi>=a[1]?'':'off')+'">'+a[0]+' <small class="muted">'+a[1]+' porsi</small></span>').join('')+'</div></div>';
+}
+const statusTag=s=>({active:'<span class="tag warn">Menunggu pickup</span>',completed:'<span class="tag">Selesai</span>',expired:'<span class="tag gray">Expired</span>'}[s]);
+const mStatusTag=s=>({active:'<span class="tag">Aktif</span>',review:'<span class="tag warn">Review</span>',rejected:'<span class="tag red">Ditolak</span>'}[s]);
+function listState(l){const i=info(l);return {live:'<span class="tag">Tayang</span>',upcoming:'<span class="tag gray">Tayang '+T(l.close-120)+'</span>',paused:'<span class="tag warn">Dijeda</span>',soldout:'<span class="tag red">Habis</span>',closed:'<span class="tag gray">Tutup</span>'}[i.state]}
+function avgRating(mid){const r=S.res.filter(x=>x.merchantId===mid&&x.rating);return r.length?(r.reduce((a,x)=>a+x.rating.score,0)/r.length).toFixed(1):null}
+function shell(items,title,body,foot){
+  return '<div class="app-shell"><aside class="sidebar"><div class="sidebar-title">'+title+'</div><nav class="side-nav" aria-label="Menu '+title+'">'+items.map(i=>'<button class="'+(route===i[0]?'active':'')+'" onclick="go(\''+i[0]+'\')"><span aria-hidden="true">'+i[2]+'</span><span class="label">'+i[1]+'</span></button>').join('')+'</nav><div class="sidebar-footer">'+foot+'</div></aside><div class="content"><div class="content-inner">'+body+'</div></div></div>';
+}
+
+/* ---------- top bar, notifikasi, jam ---------- */
+function bellPanel(){
+  const ns=myNotifs().slice(0,8),icon={voucher:'🎟️',diskon:'🏷️',rating:'⭐',admin:'🛡️',info:'🔔'};
+  return '<div class="bellpanel"><header><span>Notifikasi</span><button class="linkbtn" onclick="markRead()">Tandai dibaca</button></header>'+(ns.length?ns.map(n=>'<div class="nitem '+(n.read?'':'unread')+'"><span>'+(icon[n.type]||'🔔')+'</span><div>'+esc(n.text)+'<small>'+T(n.time)+'</small></div></div>').join(''):'<div class="nitem"><span></span><div class="muted">Belum ada notifikasi.</div></div>')+'</div>';
+}
+function renderTop(){
+  const u=cur();let nav='',acts='';
+  const brand='<button class="brand" onclick="go(\''+(u?homeOf(u.role):'landing')+'\')" aria-label="ngeWARteg, ke beranda"><span class="brand-mark">🍱</span><span>ngeWARteg</span></button>';
+  if(!u){
+    nav='<nav class="topnav" aria-label="Navigasi utama"><button onclick="go(\'landing\')">Beranda</button><button onclick="go(\'explore\')">Penawaran</button><button onclick="goSection(\'cara\')">Cara kerja</button></nav>';
+    acts='<div class="top-actions"><button class="primary" onclick="go(\'login\')">Masuk</button></div>';
+  }else{
+    if(u.role==='consumer'){
+      const nv=resOf(u.id).filter(r=>r.status==='active').length;
+      const tabs=[['c:home','Home'],['explore','Explore'],['c:voucher','Voucher'+(nv?'<span class="nbadge">'+nv+'</span>':'')],['c:history','Riwayat'],['c:profile','Profil']];
+      nav='<nav class="topnav" aria-label="Navigasi pembeli">'+tabs.map(t=>'<button class="'+(route===t[0]?'active':'')+'" onclick="go(\''+t[0]+'\')">'+t[1]+'</button>').join('')+'</nav>';
+    }else nav='<span class="rolepill">'+(u.role==='merchant'?'Merchant':'Admin')+'</span>';
+    const un=myNotifs().filter(n=>!n.read).length;
+    acts='<div class="top-actions">'+(u.role==='merchant'?'<button class="soft" onclick="toggleBig()" aria-pressed="'+(!!S.big)+'">'+(S.big?'Teks normal':'Teks besar')+'</button>':'')+'<div class="bellwrap"><button class="bell" onclick="bellOpen=!bellOpen;renderTop()" aria-label="Notifikasi">🔔'+(un?'<span class="dot">'+un+'</span>':'')+'</button>'+(bellOpen?bellPanel():'')+'</div><div class="profile-chip"><div class="avatar">'+esc(u.name.slice(0,2).toUpperCase())+'</div><span>'+esc(u.name)+'</span></div><button class="ghost" onclick="logout()">Keluar</button></div>';
+  }
+  $('#topbar').innerHTML='<header class="topbar">'+brand+nav+acts+'</header>';
+}
+function renderClock(){
+  $('#clock').innerHTML=clockOpen?'<div class="clock"><div class="clock-h"><strong>🕐 Kontrol waktu</strong><button class="mini" onclick="clockOpen=false;renderClock()" aria-label="Kecilkan">−</button></div><div class="clock-t">'+T(S.now)+'</div><div class="clock-sub">Atur waktu untuk menguji aturan listing, diskon, dan voucher.</div><div class="clock-b"><button class="soft" onclick="toggleRun()">'+(S.running?'⏸ Jeda':'▶ Jalan')+'</button><button class="soft" onclick="advance(5)">+5 mnt</button><button class="soft" onclick="advance(15)">+15 mnt</button></div><div class="clock-set"><input id="clockInput" type="time" value="'+T24(dayMinute())+'" aria-label="Atur waktu"><button class="soft" onclick="setClockTime(val(\'clockInput\'))">Atur</button></div><div class="clock-presets"><button onclick="setClockPreset(\'18:00\')">18:00 terkunci</button><button onclick="setClockPreset(\'19:00\')">19:00 aktif</button><button onclick="setClockPreset(\'23:55\')">23:55</button></div><button class="linkbtn" onclick="resetDemo()">Reset data</button></div>':'<button class="clock-mini" onclick="clockOpen=true;renderClock()" aria-label="Buka kontrol waktu">🕐 '+T(S.now)+'</button>';
+}
+
+/* ---------- halaman publik ---------- */
+function heroSearch(){E.q=val('hq');E.radius=+val('hr');go('explore')}
+function vLanding(){
+  const lv=liveList(),top=lv.slice(0,3),mAct=S.merchants.filter(m=>m.status==='active').length;
+  return '<div class="wrap"><section class="hero"><div><span class="tag" style="background:rgba(255,255,255,.16);color:white">Platform voucher makanan surplus</span><h1 style="margin-top:12px">Makan hemat,<br>kurangi food waste.</h1><p>Temukan makanan surplus dari warteg dan UMKM sekitar. Diskon naik otomatis mendekati jam tutup, reservasi dengan booking fee kecil, lalu ambil langsung di merchant.</p><div class="herosearch"><input id="hq" placeholder="Cari makanan atau nama warteg" aria-label="Cari makanan" onkeydown="if(event.key===\'Enter\')heroSearch()"><select id="hr" aria-label="Radius pencarian"><option value="3">Radius 3 km</option><option value="5" selected>Radius 5 km</option><option value="10">Radius 10 km</option></select><button class="primary" onclick="heroSearch()">Cari makanan</button></div></div>'
+  +'<div class="herostats"><div class="hstat"><b>'+lv.length+'</b><span>penawaran tayang sekarang</span></div><div class="hstat"><b>'+mAct+'</b><span>merchant mitra aktif</span></div><div class="hstat"><b>20-50%</b><span>diskon otomatis berbasis waktu</span></div><div class="hstat"><b>'+rp(BOOKING_FEE)+'</b><span>booking fee, sisanya bayar di tempat</span></div></div></section>'
+  +'<section class="section" id="penawaran"><div class="page-head"><div><h2>Penawaran terdekat</h2><p>Boleh dilihat tanpa akun. Masuk hanya saat kamu mau reservasi.</p></div><button class="soft" onclick="go(\'explore\')">Lihat semua</button></div>'
+  +(top.length?'<div class="grid g3">'+top.map(foodCard).join('')+'</div>':'<div class="empty">Belum ada penawaran yang tayang. Penawaran muncul 2 jam sebelum jam tutup merchant. Coba majukan waktu simulasi di pojok kiri bawah.</div>')+'</section>'
+  +'<section class="section" id="cara"><h2>Cara kerja</h2><p>Empat langkah dari sisa makanan menjadi makan hemat.</p><div class="steps4"><div class="stepcard"><div class="n">1</div><strong>Merchant unggah sisa makanan</strong><p class="muted">Porsi, harga normal, dan jam tutup dimasukkan oleh warteg atau UMKM.</p></div><div class="stepcard"><div class="n">2</div><strong>Diskon naik otomatis</strong><p class="muted">Semakin dekat jam tutup, diskon makin besar: 20%, 30%, 40%, hingga 50%.</p></div><div class="stepcard"><div class="n">3</div><strong>Reservasi dengan booking fee</strong><p class="muted">Bayar '+rp(BOOKING_FEE)+' lewat platform, voucher berkode unik dan QR terbit.</p></div><div class="stepcard"><div class="n">4</div><strong>Ambil dan bayar sisanya</strong><p class="muted">Tunjukkan voucher ke merchant, divalidasi, lalu bayar sisa harga langsung.</p></div></div></section>'
+  +'<section class="section" id="mitra"><div class="cta"><div><h2>Punya warteg atau UMKM makanan?</h2><p style="color:#cfd8e1">Ubah sisa makanan di jam-jam akhir menjadi pendapatan tambahan, tanpa repot menghitung diskon.</p><ul><li>Diskon dihitung otomatis oleh sistem</li><li>Voucher divalidasi dengan satu kode atau QR</li><li>Antarmuka sederhana, ada mode teks besar</li></ul></div><div style="text-align:right"><button class="primary big-btn" onclick="go(\'login\')">Masuk / Daftar Merchant</button><p style="color:#9fb0bd;font-size:12px">Pendaftaran merchant tersedia dari halaman login dan memerlukan validasi alamat oleh admin.</p></div></div></section>'
+  +'<footer class="sitefoot"><span>© 2026 ngeWARteg · Capstone Project Kelompok 3, Universitas Bakrie</span><span>Prototype: data dan pembayaran bersifat simulasi</span></footer></div>';
+}
+function authFrame(title,sub,body,foot){
+  return '<div class="auth-shell"><div class="auth-visual"><div><span class="tag" style="background:rgba(255,255,255,.16);color:white">Platform voucher makanan surplus</span><h1 style="margin-top:12px">Makan hemat,<br>kurangi food waste.</h1><p>Satu pintu masuk untuk semua. Setelah masuk, kami arahkan sesuai peran akunmu: pembeli, merchant, atau admin.</p></div><div><strong>ngeWARteg</strong><div style="opacity:.85;margin-top:4px">Lebih dekat dengan makanan lokal, lebih sedikit makanan terbuang.</div></div></div><div class="auth-card"><h2>'+title+'</h2><p>'+sub+'</p><div id="authErr" class="err hidden" role="alert"></div>'+body+'<div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line)" class="muted">'+foot+'</div></div></div>';
+}
+function fill(e){document.getElementById('le').value=e;document.getElementById('lp').value='12345678'}
+function vLogin(){
+  const adm=/admin/.test(location.hash);
+  const body='<div class="field"><label for="le">Email</label><input id="le" type="email" autocomplete="username" placeholder="nama@email.com" onkeydown="if(event.key===\'Enter\')login()"></div><div class="field"><label for="lp">Kata sandi</label><input id="lp" type="password" autocomplete="current-password" onkeydown="if(event.key===\'Enter\')login()"></div><div class="form-actions"><a class="link" onclick="toast(\'Reset kata sandi belum tersedia di prototype\')">Lupa kata sandi?</a><button class="primary" onclick="login()">Masuk</button></div>'
+  +'<div class="auth-register"><p>Belum punya akun?</p><button class="soft" style="width:100%" onclick="go(\'register\')">Daftar</button></div>'
+  +'<details class="demo"><summary>Akun demo (khusus prototype)</summary><div class="chips"><button class="chip" onclick="fill(\'ghefa@gmail.com\')">Pembeli</button><button class="chip" onclick="fill(\'bahari@merchant.com\')">Merchant</button>'+(adm?'<button class="chip" onclick="fill(\'ghefa@admin.com\')">Admin</button>':'')+'</div><p class="muted" style="font-size:12px">Kata sandi demo: 12345678. Akun admin tidak ditampilkan di halaman publik; tambahkan #admin di akhir alamat untuk memunculkannya.</p></details>';
+  return authFrame('Masuk ke ngeWARteg','Gunakan email dan kata sandi akunmu.',body,'Pendaftaran merchant akan melalui pengecekan alamat oleh admin sebelum akun dapat diaktifkan.');
+}
+function vRegister(){
+  const body='<div class="auth-register" style="margin-top:0;border-top:0;padding-top:0"><p class="muted" style="margin:0 0 14px">Pilih jenis akun yang ingin dibuat.</p><div class="grid g2"><button class="soft big-btn" onclick="go(\'register-c\')">Daftar sebagai Pembeli</button><button class="soft big-btn" onclick="go(\'register-m\')">Daftar sebagai Merchant</button></div></div>';
+  return authFrame('Daftar ke ngeWARteg','Pilih peran akun sebelum melanjutkan pendaftaran.',body,'Sudah punya akun? <a class="link" onclick="go(\'login\')">Masuk</a>');
+}
+function vRegC(){
+  const body='<div class="field"><label for="rn">Nama lengkap</label><input id="rn" autocomplete="name"></div><div class="field"><label for="re">Email</label><input id="re" type="email" autocomplete="email" placeholder="nama@email.com"></div><div class="formgrid"><div class="field"><label for="rp">Kata sandi</label><input id="rp" type="password" autocomplete="new-password"><span class="help">Minimal 8 karakter</span></div><div class="field"><label for="rp2">Ulangi kata sandi</label><input id="rp2" type="password" autocomplete="new-password"></div></div><div class="field"><label for="ra">Lokasi utama</label><select id="ra">'+AREAS.map(a=>'<option>'+a+'</option>').join('')+'</select></div><div class="form-actions"><span></span><button class="primary" onclick="regConsumer()">Buat akun</button></div>';
+  return authFrame('Daftar sebagai pembeli','Cukup email dan kata sandi.',body,'Sudah punya akun? <a class="link" onclick="go(\'login\')">Masuk</a> · Punya usaha makanan? <a class="link" onclick="go(\'register-m\')">Jadi mitra merchant</a>');
+}
+function vRegM(){
+  const body='<div class="formgrid"><div class="field"><label for="rb">Nama usaha</label><input id="rb" placeholder="Contoh: Warteg Bahari"></div><div class="field"><label for="rn">Nama pemilik</label><input id="rn" autocomplete="name"></div></div><div class="field"><label for="rad">Alamat usaha</label><input id="rad" autocomplete="street-address"></div><div class="formgrid"><div class="field"><label for="ro">Jam buka</label><input id="ro" type="time" value="07:00"></div><div class="field"><label for="rc">Jam tutup</label><input id="rc" type="time" value="21:00"></div></div><div class="field"><label for="re">Email</label><input id="re" type="email" autocomplete="email" placeholder="nama@usaha.com"></div><div class="formgrid"><div class="field"><label for="rp">Kata sandi</label><input id="rp" type="password" autocomplete="new-password"><span class="help">Minimal 8 karakter</span></div><div class="field"><label for="rp2">Ulangi kata sandi</label><input id="rp2" type="password" autocomplete="new-password"></div></div><div class="info"><b>Validasi alamat merchant</b><br>Alamat yang kamu masukkan akan dicek admin melalui Google Maps. Akun hanya dapat disetujui setelah alamat dikonfirmasi valid.</div><div class="form-actions"><span></span><button class="primary" onclick="regMerchant()">Daftarkan usaha</button></div>';
+  return authFrame('Jadi mitra merchant','Daftarkan warteg atau UMKM makananmu.',body,'Sudah punya akun? <a class="link" onclick="go(\'login\')">Masuk</a> · Mau membeli? <a class="link" onclick="go(\'register-c\')">Daftar sebagai pembeli</a>');
+}
+
+/* ---------- pembeli ---------- */
+function exploreRes(){
+  const q=E.q.trim().toLowerCase();
+  let list=liveList().filter(l=>dist(merch(l.merchantId))<=E.radius&&(!q||(l.name+' '+merch(l.merchantId).name).toLowerCase().includes(q)));
+  if(E.sort==='disc')list.sort((a,b)=>info(b).pct-info(a).pct);else if(E.sort==='close')list.sort((a,b)=>info(a).rem-info(b).rem);
+  const up=S.listings.filter(l=>{const m=merch(l.merchantId);return m&&m.status==='active'&&info(l).state==='upcoming'&&dist(m)<=E.radius});
+  return '<div class="explore-grid"><div>'+(list.length?'<div class="grid g2">'+list.map(foodCard).join('')+'</div>':'<div class="empty">Belum ada penawaran yang cocok dalam radius '+E.radius+' km. Coba perbesar radius atau majukan waktu simulasi.</div>')
+   +(up.length?'<div class="card" style="margin-top:16px"><h2>Segera tayang</h2><p class="muted" style="margin:0 0 8px">Listing tayang otomatis 2 jam sebelum jam tutup.</p>'+up.map(l=>'<div class="sumrow"><span>'+l.emoji+' '+esc(l.name)+' · '+esc(merch(l.merchantId).name)+'</span><b>tayang '+T(l.close-120)+'</b></div>').join('')+'</div>':'')+'</div><div class="card mapcard">'+mapSvg(list)+'</div></div>';
+}
+function updExplore(){const el=$('#exploreRes');if(el)el.innerHTML=exploreRes()}
+function vExplore(){
+  return '<div class="wrap"><div class="page-head"><div><h1>Explore makanan</h1><p>Temukan penawaran berdasarkan lokasi dan waktu tutup.</p></div></div><div class="searchbar"><input id="eq" placeholder="Cari makanan atau merchant" aria-label="Cari makanan atau merchant" value="'+esc(E.q)+'" oninput="E.q=this.value;updExplore()"><select aria-label="Urutkan" onchange="E.sort=this.value;updExplore()"><option value="near"'+(E.sort==='near'?' selected':'')+'>Terdekat</option><option value="disc"'+(E.sort==='disc'?' selected':'')+'>Diskon terbesar</option><option value="close"'+(E.sort==='close'?' selected':'')+'>Hampir tutup</option></select><select aria-label="Radius" onchange="E.radius=+this.value;updExplore()">'+[3,5,10].map(r=>'<option value="'+r+'"'+(E.radius===r?' selected':'')+'>≤ '+r+' km</option>').join('')+'</select></div><div id="exploreRes">'+exploreRes()+'</div></div>';
+}
+function vCHome(){
+  const u=cur(),lv=liveList(),act=resOf(u.id).filter(r=>r.status==='active'),soon=lv.filter(l=>info(l).rem<=30).slice(0,3);
+  return '<div class="wrap"><div class="card" style="padding:26px;margin-bottom:18px;background:linear-gradient(135deg,#fff7ee,#fff)"><span class="tag">'+esc(u.area||'Jakarta')+'</span><h1 style="font-size:32px;margin:8px 0 4px">Halo, '+esc(u.name.split(' ')[0])+'! Mau makan hemat apa hari ini?</h1><p class="muted" style="margin:0">Cari makanan surplus di sekitarmu sebelum merchant tutup.</p><div class="herosearch" style="border:1px solid var(--line)"><input id="hq" placeholder="Cari makanan atau nama warteg" aria-label="Cari makanan" onkeydown="if(event.key===\'Enter\')heroSearch()"><select id="hr" aria-label="Radius"><option value="3">Radius 3 km</option><option value="5" selected>Radius 5 km</option><option value="10">Radius 10 km</option></select><button class="primary" onclick="heroSearch()">Cari makanan</button></div></div>'
+  +'<div class="grid g2" style="margin-bottom:18px">'+(act.length?'<div class="card" style="border-color:#fde68a;background:#fffbeb"><h2>🎟️ Voucher aktif</h2>'+act.map(r=>'<div class="sumrow"><span><b>'+r.id+'</b> · '+esc(r.name)+' x'+r.qty+'</span><span class="tag '+(r.expiresAt-S.now<=10?'red':'warn')+'">sisa '+dur(r.expiresAt-S.now)+'</span></div>').join('')+'<button class="primary" style="margin-top:10px" onclick="go(\'c:voucher\')">Buka voucher</button></div>':'<div class="card"><h2>🎟️ Belum ada voucher aktif</h2><p class="muted">Reservasi makanan diskon dan vouchermu muncul di sini.</p><button class="primary" onclick="go(\'explore\')">Cari makanan</button></div>')+impactCard(u.id)+'</div>'
+  +'<div class="page-head"><div><h1 style="font-size:24px">Penawaran terdekat</h1><p>Pilihan makanan yang masih tersedia hari ini.</p></div><button class="soft" onclick="go(\'explore\')">Lihat semua</button></div>'
+  +(lv.length?'<div class="grid g3">'+lv.slice(0,3).map(foodCard).join('')+'</div>':'<div class="empty">Belum ada penawaran tayang. Coba majukan waktu simulasi.</div>')
+  +(soon.length?'<div class="page-head" style="margin-top:28px"><div><h1 style="font-size:24px">⏰ Hampir tutup</h1><p>Diskon terbesar, tapi waktunya tinggal sebentar.</p></div></div><div class="grid g3">'+soon.map(foodCard).join('')+'</div>':'')+'</div>';
+}
+function vCVoucher(){
+  const u=cur(),list=resOf(u.id).filter(r=>r.status==='active');
+  return '<div class="wrap"><div class="page-head"><div><h1>Voucher Saya</h1><p>Tunjukkan kode atau QR ke merchant saat mengambil makanan.</p></div></div>'+(list.length?list.map(r=>{const m=merch(r.merchantId),left=r.expiresAt-S.now;
+    return '<div class="card voucher-card" style="margin-bottom:14px"><div class="qrbox">'+qrSvg(r.id,170)+'<div class="muted" style="font-size:11px">QR (simulasi)</div></div><div><span class="tag '+(left<=10?'red':'warn')+'">Berlaku sampai '+T(r.expiresAt)+' · sisa '+dur(left)+'</span><h2 style="margin-top:8px">'+r.emoji+' '+esc(r.name)+' x'+r.qty+'</h2><div class="muted">'+esc(m.name)+' · '+esc(m.address)+'</div><div class="code" style="margin:8px 0">'+r.id+'</div><div class="sumrow"><span>Booking fee dibayar</span><b>'+rp(r.fee)+'</b></div><div class="sumrow total"><span>Sisa dibayar ke merchant</span><b>'+rp(Math.max(0,r.unit*r.qty-r.fee))+'</b></div></div></div>'}).join(''):'<div class="empty">Belum ada voucher aktif.<br><br><button class="primary" onclick="go(\'explore\')">Cari makanan diskon</button></div>')+'</div>';
+}
+function vCHistory(){
+  const u=cur(),list=resOf(u.id).slice().reverse();
+  return '<div class="wrap"><div class="page-head"><div><h1>Riwayat Transaksi</h1><p>Transaksi selesai dan voucher yang kedaluwarsa.</p></div></div><div class="table-wrap"><table><thead><tr><th>ID</th><th>Merchant</th><th>Item</th><th>Porsi</th><th>Total</th><th>Status</th><th>Aksi</th></tr></thead><tbody>'+list.map(r=>'<tr><td>'+r.id+'</td><td>'+esc(merch(r.merchantId).name)+'</td><td>'+esc(r.name)+'</td><td>'+r.qty+'</td><td>'+rp(r.unit*r.qty)+'</td><td>'+statusTag(r.status)+'</td><td>'+(r.status==='completed'?(r.rating?'<span class="star-static" aria-label="Rating '+r.rating.score+' dari 5">'+stars(r.rating.score)+'</span>':'<button class="soft" onclick="openRate(\''+r.id+'\')">Beri rating</button>'):r.status==='active'?'<button class="soft" onclick="go(\'c:voucher\')">Lihat voucher</button>':'-')+'</td></tr>').join('')+'</tbody></table></div></div>';
+}
+function vCProfile(){
+  const u=cur();
+  return '<div class="wrap"><div class="page-head"><div><h1>Profil</h1><p>Kelola informasi akun dan lokasi utama Anda.</p></div></div><div class="grid g2"><div class="card"><h2>Informasi akun</h2><div class="field"><label for="pn">Nama</label><input id="pn" value="'+esc(u.name)+'"></div><div class="field"><label for="pe">Email</label><input id="pe" value="'+esc(u.email)+'" disabled></div><div class="field"><label for="pa">Lokasi utama</label><select id="pa">'+AREAS.map(a=>'<option'+(a===u.area?' selected':'')+'>'+a+'</option>').join('')+'</select></div><button class="primary" onclick="saveProfileC()">Simpan perubahan</button></div><div><div class="card" style="margin-bottom:16px"><h2>Keamanan akun</h2><div class="field"><label for="po">Kata sandi lama</label><input id="po" type="password"></div><div class="field"><label for="pnew">Kata sandi baru</label><input id="pnew" type="password"></div><button class="soft" onclick="changePass()">Ubah kata sandi</button></div>'+impactCard(u.id)+'</div></div></div>';
+}
+
+/* ---------- merchant ---------- */
+const mItems=[['m:dashboard','Dashboard','🏠'],['m:listing','Listing','🍱'],['m:validate','Validasi Voucher','▣'],['m:transactions','Transaksi','🧾'],['m:profile','Profil Usaha','👤']];
+function mShell(body){const m=myMerchant();return shell(mItems,'Merchant',body,'<b>'+esc(m.name)+'</b><br>'+mStatusTag(m.status))}
+function reviewBanner(m){if(m.status!=='review')return '';const msg=m.addressStatus==='verified'?'Alamat sudah terverifikasi. Menunggu persetujuan akhir admin.':m.addressStatus==='needs_revision'?'Alamat belum dapat diverifikasi. Perbaiki alamat pada Profil Usaha agar admin dapat mengecek ulang.':'Alamat usaha sedang menunggu pengecekan admin melalui Google Maps.';return '<div class="warnbox">⏳ '+msg+' Listing baru bisa dibuat setelah akun disetujui.</div>'}
+function vMDash(){
+  const m=myMerchant(),ls=S.listings.filter(l=>l.merchantId===m.id),live=ls.filter(l=>info(l).state==='live'),low=live.filter(l=>l.stock<=2).length;
+  const pend=S.res.filter(r=>r.merchantId===m.id&&r.status==='active').length,done=S.res.filter(r=>r.merchantId===m.id&&r.status==='completed').length;
+  const left=live.reduce((a,l)=>a+l.stock,0),avg=avgRating(m.id);
+  return mShell(reviewBanner(m)+'<div class="page-head"><div><h1>Dashboard Merchant</h1><p>Ringkasan operasional '+esc(m.name)+' hari ini.</p></div><div class="page-actions"><button class="primary big-btn" onclick="go(\'m:validate\')">Validasi voucher</button><button class="soft big-btn" onclick="go(\'m:listing\')">+ Tambah listing</button></div></div>'
+  +'<div class="grid g5" style="margin-bottom:16px"><div class="card"><span class="muted">Listing tayang</span><div class="kpi">'+live.length+'</div><span class="tag warn">'+low+' hampir habis</span></div><div class="card"><span class="muted">Menunggu pickup</span><div class="kpi">'+pend+'</div></div><div class="card"><span class="muted">Transaksi selesai</span><div class="kpi">'+done+'</div></div><div class="card"><span class="muted">Porsi tersisa</span><div class="kpi">'+left+'</div></div><div class="card"><span class="muted">Rating rata-rata</span><div class="kpi">'+(avg?'⭐ '+avg:'-')+'</div></div></div>'
+  +'<div class="card" style="margin-bottom:16px"><h2>Panduan singkat</h2><div class="guide"><div>1. Tambah listing sisa makanan</div><div>2. Pembeli reservasi, pesanan muncul di sini</div><div>3. Minta kode voucher, lalu Validasi</div></div></div>'
+  +'<h2 style="margin-bottom:10px">Listing saya</h2>'+listingTable(ls,false));
+}
+function listingTable(ls,actions){
+  if(!ls.length)return '<div class="empty">Belum ada listing.</div>';
+  return '<div class="table-wrap"><table><thead><tr><th>Makanan</th><th>Harga normal</th><th>Harga sekarang</th><th>Diskon</th><th>Stok</th><th>Tutup</th><th>Status</th>'+(actions?'<th>Aksi</th>':'')+'</tr></thead><tbody>'+ls.map(l=>{const i=info(l);
+    return '<tr><td>'+l.emoji+' '+esc(l.name)+'</td><td>'+rp(l.normal)+'</td><td><b>'+rp(i.price)+'</b></td><td>'+(i.pct?'<span class="tag warn">'+i.pct+'%</span>'+(i.next?' <small class="muted">'+i.next.pct+'% dalam '+dur(i.next.inMin)+'</small>':''):'<span class="muted">belum</span>')+'</td><td><span class="stock">'+(actions?'<button class="mini" aria-label="Kurangi stok" onclick="adjStock(\''+l.id+'\',-1)">−</button>':'')+'<b>'+l.stock+'</b>'+(actions?'<button class="mini" aria-label="Tambah stok" onclick="adjStock(\''+l.id+'\',1)">+</button>':'')+'</span></td><td>'+T(l.close)+'</td><td>'+listState(l)+'</td>'+(actions?'<td><button class="soft" onclick="toggleActive(\''+l.id+'\')">'+(l.active?'Jeda':'Aktifkan')+'</button> <button class="danger" onclick="soldOut(\''+l.id+'\')">Tandai habis</button></td>':'')+'</tr>'}).join('')+'</tbody></table></div>';
+}
+function vMListing(){
+  const m=myMerchant(),ls=S.listings.filter(l=>l.merchantId===m.id),ok=m.status==='active',timeOk=canCreateListing(),formOk=ok&&timeOk;
+  return mShell(reviewBanner(m)+'<div class="page-head"><div><h1>Kelola Listing</h1><p>Tambah dan kelola makanan surplus. Harga diskon dihitung otomatis.</p></div></div>'+listingTable(ls,true)
+  +(!timeOk?'<div class="rulebox"><strong>⏰ Listing baru sedang dikunci</strong>Merchant tidak dapat membuat listing pukul 01.00–18.59. Listing baru dapat dibuat mulai pukul 19.00 sampai 00.59.</div>':'')
+  +'<div class="card" style="margin-top:18px"><h2>Tambah listing baru</h2>'+(ok?(timeOk?'':'<p class="muted">Form dikunci sementara sesuai aturan jam listing.</p>'):'<p class="muted">Form aktif setelah akun disetujui admin.</p>')+'<div class="formgrid"><div class="field"><label for="ln">Nama makanan</label><input id="ln" placeholder="Contoh: Nasi Rames Komplit"></div><div class="field"><label for="lemoji">Ikon</label><select id="lemoji">'+EMOJIS.map(e=>'<option>'+e+'</option>').join('')+'</select></div><div class="field"><label for="lq">Jumlah porsi</label><input id="lq" type="number" min="1" value="5"></div><div class="field"><label for="lp">Harga normal (Rp)</label><input id="lp" type="number" min="1000" step="500" value="20000" oninput="previewSched()"></div><div class="field"><label for="lc">Jam tutup</label><input id="lc" type="time" value="'+T24(Math.max(m.close,S.now+60))+'" oninput="previewSched()"></div><div class="field"><label for="lnote">Catatan</label><input id="lnote" placeholder="Isi paket, level pedas, dan lain-lain"></div></div><div class="info"><b>Jadwal diskon otomatis</b><ul class="timeline" id="sched"></ul></div><button class="primary big-btn" '+(formOk?'':'disabled')+' onclick="addListing()">Simpan listing</button></div>');
+}
+function vMValidate(){
+  const m=myMerchant(),pend=S.res.filter(r=>r.merchantId===m.id&&r.status==='active');
+  return mShell('<div class="page-head"><div><h1>Validasi Voucher</h1><p>Minta pembeli menunjukkan kode atau QR, lalu masukkan di sini.</p></div></div><div class="card"><div class="vbig"><input id="vcode" placeholder="NW-0000" aria-label="Kode voucher" autocomplete="off" onkeydown="if(event.key===\'Enter\')validateCode()"><button class="primary big-btn" onclick="validateCode()">Validasi</button></div><div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button class="soft" onclick="scanSim()">📷 Simulasi scan QR</button><span class="muted">Di versi final, tombol ini membuka kamera.</span></div><div id="vres" class="vres"></div></div>'
+  +'<div class="card" style="margin-top:16px"><h2>Menunggu pickup ('+pend.length+')</h2>'+(pend.length?pend.map(r=>'<div class="sumrow"><span><b>'+r.id+'</b> · '+esc(r.name)+' x'+r.qty+' · '+esc(user(r.userId).name)+'</span><span><span class="tag warn">sampai '+T(r.expiresAt)+'</span> <button class="soft" onclick="document.getElementById(\'vcode\').value=\''+r.id+'\';validateCode()">Pakai kode</button></span></div>').join(''):'<p class="muted">Belum ada pesanan menunggu pickup.</p>')+'</div>');
+}
+function renderVal(){
+  const el=document.getElementById('vres');if(!el)return;
+  if(!VAL){el.innerHTML='';return}
+  if(!VAL.ok){el.innerHTML='<div class="card" style="border-color:#fecaca;margin-top:14px"><span class="tag red">✖ '+esc(VAL.msg)+'</span><p class="muted">Periksa kembali kode pada voucher pembeli.</p></div>';return}
+  const r=S.res.find(x=>x.id===VAL.id),b=user(r.userId);
+  el.innerHTML='<div class="card" style="border-color:#bbf7d0;margin-top:14px"><span class="tag">✔ Voucher valid</span><h2 style="margin-top:10px">'+r.emoji+' '+esc(r.name)+'</h2><p>'+r.qty+' porsi · '+esc(b.name)+' · berlaku sampai '+T(r.expiresAt)+'</p><div class="sumrow"><span>Booking fee sudah dibayar</span><b>'+rp(r.fee)+'</b></div><div class="sumrow total"><span>Tagih sisa pembayaran</span><b>'+rp(Math.max(0,r.unit*r.qty-r.fee))+'</b></div><button class="primary big-btn" style="margin-top:12px;width:100%" onclick="confirmPickup(\''+r.id+'\')">Konfirmasi pickup</button></div>';
+}
+function vMTrans(){
+  const m=myMerchant();let list=S.res.filter(r=>r.merchantId===m.id).slice().reverse();if(MF.status!=='all')list=list.filter(r=>r.status===MF.status);
+  return mShell('<div class="page-head"><div><h1>Transaksi</h1><p>Reservasi, pickup, transaksi selesai, dan voucher expired.</p></div></div><div class="toolbar"><select aria-label="Filter status" onchange="MF.status=this.value;render()">'+[['all','Semua status'],['active','Menunggu pickup'],['completed','Selesai'],['expired','Expired']].map(o=>'<option value="'+o[0]+'"'+(MF.status===o[0]?' selected':'')+'>'+o[1]+'</option>').join('')+'</select></div><div class="table-wrap"><table><thead><tr><th>ID</th><th>Makanan</th><th>Porsi</th><th>Pembeli</th><th>Status</th><th>Waktu</th><th>Rating</th></tr></thead><tbody>'+list.map(r=>'<tr><td>'+r.id+'</td><td>'+esc(r.name)+'</td><td>'+r.qty+'</td><td>'+esc(user(r.userId).name)+'</td><td>'+statusTag(r.status)+'</td><td>'+(r.status==='completed'?'selesai '+T(r.completedAt):'sampai '+T(r.expiresAt))+'</td><td>'+(r.rating?'<span class="star-static">'+stars(r.rating.score)+'</span>':'-')+'</td></tr>').join('')+'</tbody></table></div>');
+}
+function vMProfile(){
+  const m=myMerchant(),avg=avgRating(m.id);
+  return mShell(reviewBanner(m)+'<div class="page-head"><div><h1>Profil Usaha</h1><p>Informasi merchant yang tampil ke pembeli.</p></div></div><div class="grid g2"><div class="card"><div class="field"><label for="mn">Nama usaha</label><input id="mn" value="'+esc(m.name)+'"></div><div class="field"><label for="mad">Alamat</label><input id="mad" value="'+esc(m.address)+'"></div><div class="formgrid"><div class="field"><label for="mo">Jam buka</label><input id="mo" type="time" value="'+T24(m.open)+'"></div><div class="field"><label for="mc">Jam tutup</label><input id="mc" type="time" value="'+T24(m.close)+'"></div></div><button class="primary" onclick="saveProfileM()">Simpan perubahan</button></div><div class="card"><h2>Status akun</h2><p>'+mStatusTag(m.status)+'</p><p>'+addrStatusLabel(m)+'</p><p class="muted">'+(m.status==='active'?'Merchant dapat membuat listing dan menerima reservasi sesuai aturan jam listing.':m.status==='review'?'Menunggu validasi alamat dan persetujuan admin.':'Pendaftaran ditolak.')+'</p><h2 style="margin-top:14px">Rating pembeli</h2><p style="font-size:24px">'+(avg?'<span class="star-static">★</span> '+avg+' / 5':'Belum ada rating')+'</p></div></div>');
+}
+
+/* ---------- admin ---------- */
+const aItems=[['a:dashboard','Dashboard','🏠'],['a:users','Pengguna','👥'],['a:merchants','Merchant','🏪'],['a:transactions','Transaksi','🧾']];
+function aShell(body){return shell(aItems,'Admin',body,'Administrator<br>ngeWARteg')}
+function vADash(){
+  const consumers=S.users.filter(u=>u.role==='consumer').length,act=S.merchants.filter(m=>m.status==='active').length,rev=S.merchants.filter(m=>m.status==='review');
+  return aShell('<div class="page-head"><div><h1>Dashboard Admin</h1><p>Monitoring pengguna, merchant, listing, dan transaksi.</p></div></div><div class="grid g4" style="margin-bottom:16px"><div class="card"><span class="muted">Total pembeli</span><div class="kpi">'+consumers+'</div></div><div class="card"><span class="muted">Merchant aktif</span><div class="kpi">'+act+'</div></div><div class="card"><span class="muted">Listing tayang</span><div class="kpi">'+liveList().length+'</div></div><div class="card"><span class="muted">Transaksi</span><div class="kpi">'+S.res.length+'</div></div></div>'
+  +'<div class="card" style="margin-bottom:16px"><h2>Menunggu verifikasi ('+rev.length+')</h2>'+(rev.length?rev.map(m=>'<div class="sumrow"><span><b>'+esc(m.name)+'</b> · '+esc(m.address)+'<br>'+addrStatusLabel(m)+'</span><span><button class="soft" onclick="openAddressReview(\''+m.id+'\')">Cek alamat</button> <button class="okbtn" '+(m.addressStatus==='verified'?'':'disabled')+' onclick="approveMerchant(\''+m.id+'\')">Setujui</button> <button class="danger" onclick="rejectMerchant(\''+m.id+'\')">Tolak</button></span></div>').join(''):'<p class="muted">Tidak ada merchant yang menunggu verifikasi.</p>')+'</div>'
+  +'<h2 style="margin-bottom:10px">Aktivitas terbaru</h2><div class="table-wrap"><table><thead><tr><th>Waktu</th><th>Aktivitas</th></tr></thead><tbody>'+S.log.slice(0,8).map(x=>'<tr><td>'+T(x.t)+'</td><td>'+esc(x.text)+'</td></tr>').join('')+'</tbody></table></div>');
+}
+function vAUsers(){
+  return aShell('<div class="page-head"><div><h1>Pengguna</h1><p>Kelola akun pengguna platform.</p></div></div><div class="table-wrap"><table><thead><tr><th>Nama</th><th>Email</th><th>Peran</th><th>Lokasi</th><th>Status</th><th>Aksi</th></tr></thead><tbody>'+S.users.map(u=>'<tr><td>'+esc(u.name)+'</td><td>'+esc(u.email)+'</td><td>'+({consumer:'Pembeli',merchant:'Merchant',admin:'Admin'}[u.role])+'</td><td>'+esc(u.area||'-')+'</td><td>'+(u.active?'<span class="tag">Aktif</span>':'<span class="tag red">Nonaktif</span>')+'</td><td>'+(u.role==='admin'?'-':'<button class="soft" onclick="toggleUser(\''+u.id+'\')">'+(u.active?'Nonaktifkan':'Aktifkan')+'</button>')+'</td></tr>').join('')+'</tbody></table></div>');
+}
+function vAMerchants(){
+  return aShell('<div class="page-head"><div><h1>Merchant</h1><p>Verifikasi alamat merchant terlebih dahulu, lalu kelola status akun usahanya.</p></div></div><div class="table-wrap"><table><thead><tr><th>Merchant</th><th>Alamat</th><th>Validasi alamat</th><th>Listing tayang</th><th>Rating</th><th>Status</th><th>Aksi</th></tr></thead><tbody>'+S.merchants.map(m=>{const n=S.listings.filter(l=>l.merchantId===m.id&&info(l).state==='live').length,a=avgRating(m.id);
+    return '<tr><td>'+esc(m.name)+'</td><td>'+esc(m.address)+'</td><td>'+addrStatusLabel(m)+'</td><td>'+n+'</td><td>'+(a?'⭐ '+a:'-')+'</td><td>'+mStatusTag(m.status)+'</td><td>'+(m.status==='review'?'<button class="soft" onclick="openAddressReview(\''+m.id+'\')">Cek alamat</button> <button class="okbtn" '+(m.addressStatus==='verified'?'':'disabled')+' onclick="approveMerchant(\''+m.id+'\')">Setujui</button> <button class="danger" onclick="rejectMerchant(\''+m.id+'\')">Tolak</button>':m.status==='rejected'?'<button class="soft" onclick="reactivateMerchant(\''+m.id+'\')">Aktifkan</button>':addrStatusLabel(m))+'</td></tr>'}).join('')+'</tbody></table></div>');
+}
+function vATrans(){
+  let list=S.res.slice().reverse();if(AF.status!=='all')list=list.filter(r=>r.status===AF.status);
+  return aShell('<div class="page-head"><div><h1>Transaksi</h1><p>Monitoring seluruh transaksi di platform.</p></div></div><div class="toolbar"><select aria-label="Filter status" onchange="AF.status=this.value;render()">'+[['all','Semua status'],['active','Menunggu pickup'],['completed','Selesai'],['expired','Expired']].map(o=>'<option value="'+o[0]+'"'+(AF.status===o[0]?' selected':'')+'>'+o[1]+'</option>').join('')+'</select></div><div class="table-wrap"><table><thead><tr><th>ID</th><th>Pembeli</th><th>Merchant</th><th>Item</th><th>Total</th><th>Status</th><th>Waktu</th></tr></thead><tbody>'+list.map(r=>'<tr><td>'+r.id+'</td><td>'+esc(user(r.userId).name)+'</td><td>'+esc(merch(r.merchantId).name)+'</td><td>'+esc(r.name)+' x'+r.qty+'</td><td>'+rp(r.unit*r.qty)+'</td><td>'+statusTag(r.status)+'</td><td>'+T(r.createdAt)+'</td></tr>').join('')+'</tbody></table></div>');
+}
+
+/* ---------- modal ---------- */
+function modalDetail(){
+  const l=listing(M.id);if(!l){M=null;return ''}
+  const m=merch(l.merchantId),i=info(l),u=cur(),live=i.state==='live';
+  const stepper=n=>'<div class="stepper">'+['Detail dan porsi','Booking fee','Voucher'].map((s,k)=>'<span class="step '+(k<=n?'on':'')+'">'+(k+1)+'. '+s+'</span>').join('')+'</div>';
+  if(M.step==='voucher'){
+    const r=S.res.find(x=>x.id===M.resId);
+    return stepper(2)+'<h2 style="text-align:center">Reservasi berhasil 🎉</h2><div class="qrbox">'+qrSvg(r.id,190)+'<div class="muted" style="font-size:11px">QR (simulasi untuk prototype)</div><div class="code">'+r.id+'</div><p><b>'+r.emoji+' '+esc(r.name)+'</b> x'+r.qty+'<br>'+esc(m.name)+'</p><p><span class="tag warn">Berlaku sampai '+T(r.expiresAt)+' · sisa '+dur(r.expiresAt-S.now)+'</span></p><p class="muted">Tunjukkan voucher ke merchant, lalu bayar sisa '+rp(Math.max(0,r.unit*r.qty-r.fee))+' langsung di tempat.</p><div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="primary" onclick="go(\'c:voucher\')">Lihat Voucher Saya</button><button class="soft" onclick="closeModal()">Cari lagi</button></div></div>';
+  }
+  if(M.step==='fee'){
+    const total=i.price*M.qty;
+    return stepper(1)+'<h2>Booking fee</h2><p class="muted">Booking fee menjamin porsimu. Sisa harga dibayar langsung ke merchant saat pengambilan.</p><div class="sumrow"><span>'+l.emoji+' '+esc(l.name)+' x'+M.qty+' @ '+rp(i.price)+'</span><b>'+rp(total)+'</b></div><div class="sumrow"><span>Booking fee / DP (bayar sekarang)</span><b>'+rp(BOOKING_FEE)+'</b></div><div class="sumrow total"><span>Sisa dibayar ke merchant</span><b>'+rp(Math.max(0,total-BOOKING_FEE))+'</b></div><div class="rulebox"><strong>⚠️ Perhatikan sebelum membayar</strong>Setelah voucher diterbitkan, pesanan harus diambil maksimal 30 menit atau sebelum merchant tutup. Jika tidak diambil sampai batas waktu, booking fee/DP hangus dan porsi dikembalikan ke stok merchant. Pada pukul 00.00 seluruh voucher yang masih aktif juga diakhiri dan DP hangus.</div><label class="ack"><input id="feeAck" type="checkbox" onchange="document.getElementById(\'payBtn\').disabled=!this.checked"><span>Saya sudah membaca dan memahami aturan booking fee/DP di atas.</span></label><div class="info">Pembayaran menggunakan payment sandbox untuk kebutuhan alur pembayaran.</div><div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap"><button class="soft" onclick="M.step=\'detail\';renderModal()">Kembali</button><button id="payBtn" class="primary big-btn" disabled onclick="pay()">Bayar '+rp(BOOKING_FEE)+'</button></div>';
+  }
+  const urg=live?(i.rem<=30?'<span class="tag red">⏰ Tutup '+dur(i.rem)+' lagi</span>':'<span class="tag gray">Tutup '+T(l.close)+' · '+dur(i.rem)+' lagi</span>'):'';
+  const max=Math.max(1,Math.min(3,l.stock));
+  return stepper(0)+'<div class="grid g2" style="align-items:start"><div class="food-thumb" style="height:200px;font-size:80px" aria-hidden="true">'+l.emoji+'</div><div><div class="badges">'+urg+(live?'<span class="tag '+(l.stock<=2?'red':'')+'">'+(l.stock<=2?'Tinggal ':'Sisa ')+l.stock+' porsi</span>':'<span class="tag red">Tidak tersedia</span>')+'</div><h2 style="margin:8px 0 2px">'+esc(l.name)+'</h2><div class="muted">'+esc(m.name)+' • '+km(dist(m))+'</div><div class="muted">📍 '+esc(m.address)+'</div><div class="price-row" style="margin:10px 0"><div><span class="old">'+rp(l.normal)+'</span><div class="price">'+rp(i.price)+'</div></div>'+(live?'<span class="disc">-'+i.pct+'%</span>':'')+'</div><p>'+esc(l.note||'')+'</p>'+(i.next?'<div class="hint">📈 Diskon naik jadi '+i.next.pct+'% dalam '+dur(i.next.inMin)+'</div>':live?'<div class="hint">🔥 Diskon sudah maksimal</div>':'')+'</div></div>'
+  +(live?'<div class="qtyrow"><b>Jumlah porsi</b><button class="mini" onclick="setQty(-1)" aria-label="Kurangi">−</button><b style="font-size:20px">'+Math.min(M.qty,max)+'</b><button class="mini" onclick="setQty(1)" aria-label="Tambah">+</button><span class="muted">Total '+rp(i.price*Math.min(M.qty,max))+' · maks. '+max+' porsi</span></div><button class="primary big-btn" style="width:100%" onclick="toFee()">'+(u?'Lanjut ke booking fee':'Masuk untuk reservasi')+'</button>':'<div class="warnbox" style="margin-top:12px">Penawaran ini sudah tidak tersedia (habis, dijeda, atau lewat jam tutup).</div>');
+}
+function modalAddressReview(){
+  const m=merch(M.merchantId);if(!m){M=null;return ''}
+  return '<h2>Validasi alamat merchant</h2><p class="muted">Cek alamat yang dikirim merchant pada Google Maps sebelum akun disetujui.</p><div class="map-review"><b>'+esc(m.name)+'</b><div style="margin-top:6px">Alamat dari merchant:</div><div style="font-size:16px;font-weight:700;margin-top:4px">📍 '+esc(m.submittedAddress||m.address)+'</div><div style="margin-top:12px"><button class="soft" onclick="openMapsForMerchant(\''+m.id+'\')">↗ Buka di Google Maps</button></div></div><div class="field"><label for="verifiedAddr">Alamat yang dikonfirmasi admin</label><input id="verifiedAddr" value="'+esc(m.verifiedAddress||m.submittedAddress||m.address)+'"><span class="help">Admin dapat menyesuaikan penulisan alamat setelah mengecek lokasi pada Google Maps.</span></div><div class="rulebox"><strong>Aturan persetujuan</strong>Tombol Setujui Merchant baru aktif setelah alamat ditandai valid.</div><div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap"><button class="danger" onclick="verifyMerchantAddress(\''+m.id+'\',false)">Perlu perbaikan</button><button class="okbtn" onclick="verifyMerchantAddress(\''+m.id+'\',true)">✓ Konfirmasi alamat valid</button></div>';
+}
+
+function modalRate(){
+  const r=S.res.find(x=>x.id===M.resId);
+  return '<h2>Beri rating</h2><p class="muted">'+esc(r.name)+' · '+esc(merch(r.merchantId).name)+'</p><div class="stars" role="radiogroup" aria-label="Rating bintang">'+[1,2,3,4,5].map(n=>'<button class="'+(n<=M.score?'on':'')+'" onclick="setStar('+n+')" aria-label="'+n+' bintang">★</button>').join('')+'</div><div class="field"><label for="rt">Feedback (opsional)</label><textarea id="rt" rows="3" placeholder="Ceritakan pengalamanmu"></textarea></div><div style="display:flex;gap:8px;justify-content:flex-end"><button class="soft" onclick="closeModal()">Batal</button><button class="primary" onclick="submitRating()">Kirim rating</button></div>';
+}
+function renderModal(){
+  const el=$('#modal');if(!M){el.innerHTML='';return}
+  el.innerHTML='<div class="overlay" onclick="if(event.target===this)closeModal()"><div class="modal" role="dialog" aria-modal="true"><button class="x" onclick="closeModal()" aria-label="Tutup">×</button>'+(M.type==='rate'?modalRate():M.type==='address'?modalAddressReview():modalDetail())+'</div></div>';
+}
+
+/* ---------- render utama ---------- */
+function guardRoute(){
+  const u=cur(),pub=['landing','explore','login','register','register-c','register-m'];
+  if(!u){if(!pub.includes(route))route='login';return}
+  if(['login','register','register-c','register-m','landing'].includes(route))route=homeOf(u.role);
+  if(u.role==='consumer'){if(!(route==='explore'||route.startsWith('c:')))route='c:home'}
+  else if(route==='explore'||!route.startsWith(u.role==='merchant'?'m:':'a:'))route=homeOf(u.role);
+}
+function renderApp(){
+  const v={landing:vLanding,login:vLogin,register:vRegister,'register-c':vRegC,'register-m':vRegM,explore:vExplore,'c:home':vCHome,'c:voucher':vCVoucher,'c:history':vCHistory,'c:profile':vCProfile,'m:dashboard':vMDash,'m:listing':vMListing,'m:validate':vMValidate,'m:transactions':vMTrans,'m:profile':vMProfile,'a:dashboard':vADash,'a:users':vAUsers,'a:merchants':vAMerchants,'a:transactions':vATrans}[route]||vLanding;
+  $('#app').innerHTML=v();
+  if(route==='m:validate')renderVal();
+  if(route==='m:listing')previewSched();
+}
+function render(){guardRoute();renderTop();renderApp();renderModal();renderClock()}
+function refresh(){
+  const a=document.activeElement;
+  if(a&&['INPUT','TEXTAREA','SELECT'].includes(a.tagName)&&a.closest&&a.closest('#app,#modal')){renderTop();renderClock();return}
+  render();
+}
+
+/* ---------- mulai ---------- */
+function init(){
+  S=load()||seed();S.running=false;
+  if(S.session&&!user(S.session))S.session=null;
+  document.body.classList.toggle('big',!!S.big);
+  const u=cur();route=u?homeOf(u.role):(/admin/.test(location.hash)?'login':'landing');
+  document.addEventListener('click',e=>{if(bellOpen&&!e.target.closest('.bellwrap')){bellOpen=false;renderTop()}});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&M)closeModal()});
+  render();
+}
+init();
+</script>
+</body>
+</html>
