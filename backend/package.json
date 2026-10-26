@@ -1,0 +1,31 @@
+{
+  "name": "ngewarteg-backend",
+  "version": "0.7.0",
+  "description": "API ngeWARteg: auth, listing makanan, dan scheduler diskon (Minggu 7)",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "db:setup": "node scripts/setup-db.js",
+    "db:reset": "node scripts/setup-db.js --fresh",
+    "scheduler:once": "node scripts/run-scheduler-once.js",
+    "test": "node --test --test-concurrency=1 \"tests/*.test.js\""
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.8",
+    "express": "^4.22.3",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "mysql2": "^3.24.6"
+  },
+  "devDependencies": {
+    "supertest": "^7.3.1"
+  }
+}
